@@ -1,0 +1,38 @@
+[
+  {
+    "Isim": "efe",
+    "Saat": 100,
+    "Derece": {
+      "DereceAdi": "Üst Kıdemli",
+      "SaatlikUcret": 550
+    },
+    "Maas": 60000
+  },
+  {
+    "Isim": "berkay ",
+    "Saat": 120,
+    "Derece": {
+      "DereceAdi": "Kidemli",
+      "SaatlikUcret": 535
+    },
+    "Maas": 64200
+  },
+  {
+    "Isim": "Emir",
+    "Saat": 100,
+    "Derece": {
+      "DereceAdi": "Deneyimli",
+      "SaatlikUcret": 510
+    },
+    "Maas": 51000
+  },
+  {
+    "Isim": "erhan",
+    "Saat": 151,
+    "Derece": {
+      "DereceAdi": "Kidemli",
+      "SaatlikUcret": 535
+    },
+    "Maas": 80785
+  }
+]

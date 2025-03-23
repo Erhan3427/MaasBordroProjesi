@@ -36,6 +36,10 @@
             label2 = new Label();
             label3 = new Label();
             dgvCalisanlar = new DataGridView();
+            btnGuncelle = new Button();
+            btnSil = new Button();
+            btnYonetim = new Button();
+            cbBonus = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)npSaat).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCalisanlar).BeginInit();
             SuspendLayout();
@@ -50,9 +54,11 @@
             // npSaat
             // 
             npSaat.Location = new Point(115, 126);
+            npSaat.Maximum = new decimal(new int[] { 400, 0, 0, 0 });
             npSaat.Name = "npSaat";
-            npSaat.Size = new Size(220, 27);
+            npSaat.Size = new Size(181, 27);
             npSaat.TabIndex = 1;
+            npSaat.Leave += npSaat_Leave;
             // 
             // cmbKıdem
             // 
@@ -60,16 +66,17 @@
             cmbKıdem.FormattingEnabled = true;
             cmbKıdem.Location = new Point(115, 186);
             cmbKıdem.Name = "cmbKıdem";
-            cmbKıdem.Size = new Size(139, 28);
+            cmbKıdem.Size = new Size(181, 28);
             cmbKıdem.TabIndex = 2;
+            cmbKıdem.SelectedIndexChanged += cmbKıdem_SelectedIndexChanged;
             // 
             // btnKaydet
             // 
-            btnKaydet.Location = new Point(502, 202);
+            btnKaydet.Location = new Point(412, 200);
             btnKaydet.Name = "btnKaydet";
             btnKaydet.Size = new Size(150, 40);
             btnKaydet.TabIndex = 3;
-            btnKaydet.Text = "kaydet";
+            btnKaydet.Text = "Ekle";
             btnKaydet.UseVisualStyleBackColor = true;
             btnKaydet.Click += btnKaydet_Click;
             // 
@@ -103,22 +110,67 @@
             // dgvCalisanlar
             // 
             dgvCalisanlar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCalisanlar.Location = new Point(19, 268);
+            dgvCalisanlar.Location = new Point(2, 271);
             dgvCalisanlar.Name = "dgvCalisanlar";
+            dgvCalisanlar.ReadOnly = true;
             dgvCalisanlar.RowHeadersWidth = 51;
-            dgvCalisanlar.Size = new Size(632, 177);
+            dgvCalisanlar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvCalisanlar.Size = new Size(786, 177);
             dgvCalisanlar.TabIndex = 5;
-            dgvCalisanlar.CellContentClick += dgvCalisanlar_CellContentClick;
+            // 
+            // btnGuncelle
+            // 
+            btnGuncelle.Location = new Point(412, 154);
+            btnGuncelle.Name = "btnGuncelle";
+            btnGuncelle.Size = new Size(150, 40);
+            btnGuncelle.TabIndex = 3;
+            btnGuncelle.Text = "Güncelle";
+            btnGuncelle.UseVisualStyleBackColor = true;
+            btnGuncelle.Click += btnGuncelle_Click;
+            // 
+            // btnSil
+            // 
+            btnSil.Location = new Point(412, 108);
+            btnSil.Name = "btnSil";
+            btnSil.Size = new Size(150, 40);
+            btnSil.TabIndex = 3;
+            btnSil.Text = "Sil";
+            btnSil.UseVisualStyleBackColor = true;
+            btnSil.Click += btnSil_Click;
+            // 
+            // btnYonetim
+            // 
+            btnYonetim.Location = new Point(648, 12);
+            btnYonetim.Name = "btnYonetim";
+            btnYonetim.Size = new Size(140, 41);
+            btnYonetim.TabIndex = 6;
+            btnYonetim.Text = "Dosya Oluştur";
+            btnYonetim.UseVisualStyleBackColor = true;
+            btnYonetim.Click += btnYonetim_Click;
+            // 
+            // cbBonus
+            // 
+            cbBonus.AutoSize = true;
+            cbBonus.Location = new Point(412, 53);
+            cbBonus.Name = "cbBonus";
+            cbBonus.Size = new Size(71, 24);
+            cbBonus.TabIndex = 7;
+            cbBonus.Text = "Bonus";
+            cbBonus.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(cbBonus);
+            Controls.Add(btnYonetim);
             Controls.Add(dgvCalisanlar);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
+            Controls.Add(btnSil);
+            Controls.Add(btnGuncelle);
             Controls.Add(btnKaydet);
             Controls.Add(cmbKıdem);
             Controls.Add(npSaat);
@@ -142,5 +194,9 @@
         private Label label3;
         private DataGridView dgvCalisanlar;
         public ComboBox cmbKıdem;
+        private Button btnGuncelle;
+        private Button btnSil;
+        private Button btnYonetim;
+        private CheckBox cbBonus;
     }
 }

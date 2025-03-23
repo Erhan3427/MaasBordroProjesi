@@ -1,8 +1,12 @@
-﻿namespace Bordro
+﻿
+
+using Bordro.Bordro;
+
+namespace Bordro
 {
     public abstract class Personel
     {
-        public string İsim { get; set; }
+        public string Isim { get; set; }
         public decimal Saat { get; set; }
 
         public MemurDerecesi Derece { get; set; }
@@ -13,44 +17,50 @@
         {
             Maas = MaasHesapla();
         }
-        
-           
-        
+
+
+
         public override string ToString()
         {
-            return İsim + Saat + Derece;
+            return Isim + Saat + Derece;
         }
 
 
     }
-   public  class Yonetici : Personel
+    public class Yonetici : Personel
     {
-        public override decimal MaasHesapla( )
-        {
-            decimal SonMaas = (int)Derece * Saat;
-            return SonMaas;
-
-
-        }
-    }
-
-   public class Memur : Personel
-    {
-
+        public decimal bonus { get; set; } = 0;
         public override decimal MaasHesapla()
         {
             decimal SonMaas;
+            decimal ekMesai = 0;
+
             if (Saat > 180)
             {
-                SonMaas = ((int)Derece * 1.5m)*Saat;
-                return SonMaas;
+                ekMesai = (Saat - 180) * Derece.SaatlikUcret * 1.5m;
             }
-            else
-            {
-                SonMaas = (int)Derece * Saat;
-                return SonMaas;
-            }
-        }
 
+            SonMaas = (Derece.SaatlikUcret * Saat) + bonus;
+            return SonMaas + ekMesai;
+        }
+    }
+
+    public class Memur : Personel
+    {
+        public override decimal MaasHesapla()
+        {
+            decimal SonMaas=0;
+            decimal ekMesai = 0;
+
+            if (Saat > 180)
+            {
+                ekMesai = (Saat - 180) * Derece.SaatlikUcret * 1.5m;
+            }
+            
+                SonMaas = Derece.SaatlikUcret * Saat;
+            
+            return SonMaas + ekMesai;
+
+        }
     }
 }
