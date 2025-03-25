@@ -1,9 +1,13 @@
 {
-  "Isim": "erhan",
-  "Saat": 12,
+  "Id": 1,
+  "Isim": "Erhan",
+  "Saat": 200,
   "Derece": {
-    "DereceAdi": "Üst Kıdemli",
-    "SaatlikUcret": 550
+    "DereceAdi": "Yönetici",
+    "SaatlikUcret": 600
   },
-  "Maas": 6600
+  "SaatlikVerilenUcret": 500,
+  "AnaOdeme": 120000,
+  "MesaiUcret": 18000.0,
+  "Maas": 138000.0
 }

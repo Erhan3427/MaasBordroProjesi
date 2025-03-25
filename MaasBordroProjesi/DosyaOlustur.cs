@@ -21,7 +21,7 @@ namespace MaasBordroProjesi
     public partial class YoneticiPersonel : Form
     {
         private List<Personel> calisanlarHepsi = new List<Personel>();
-        internal int bonus;
+        public int bonus;
 
         public YoneticiPersonel(List<Personel> calisanlar)
         {
@@ -35,6 +35,7 @@ namespace MaasBordroProjesi
             lsvtRapor.View = View.Details; // Detaylı görünüm modu
             lsvtRapor.GridLines = true; // Çizgileri göster
 
+
             // ListView kolonlarını oluştur
             lsvtRapor.Columns.Add("İsim", 60);
             lsvtRapor.Columns.Add("Çalışma Saati", 130);
@@ -45,34 +46,49 @@ namespace MaasBordroProjesi
 
             foreach (var kisi in calisanlarHepsi)
             {
-                cmbYcalisan.Items.Add(kisi.Isim);
+                cmbYcalisan.Items.Add(kisi);
             }
         }
 
 
         public void jsonKaydet()
         {
-            string projeDizini = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            //projenin içine girmek için 
-            string hedefDizin = Path.Combine(projeDizini, @"..\..\..\", "DataPersonel");
-            string dosyaYolu = Path.Combine(hedefDizin, "Personeller.json");
-
-            if (!Directory.Exists(hedefDizin))
+            try
             {
-                Directory.CreateDirectory(hedefDizin);
-            }
+                if (calisanlarHepsi == null)
+                {
+                    MessageBox.Show("çalışan yok");
+                    return;
+                }
+                string projeDizini = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            if (calisanlarHepsi.Count == 0)
-            {
-                MessageBox.Show("Kaydedilecek personel bulunamadı!");
-                return;
-            }
+                //projenin içine girmek için 
+                string hedefDizin = Path.Combine(projeDizini, @"..\..\..\", "DataPersonel");
+                string dosyaYolu = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, hedefDizin, "Personeller.json");
 
-            var jsonAyarlar = new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping }; 
-            string jsonVeri = JsonSerializer.Serialize(calisanlarHepsi, jsonAyarlar);
-            File.WriteAllText(dosyaYolu, jsonVeri);
-            MessageBox.Show("Personel verileri başarıyla kaydedildi!");
+                if (!Directory.Exists(hedefDizin))
+                {
+                    Directory.CreateDirectory(hedefDizin);
+                }
+
+                if (calisanlarHepsi.Count == 0)
+                {
+                    MessageBox.Show("Kaydedilecek personel bulunamadı!");
+                    return;
+                }
+
+                var jsonAyarlar = new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+
+
+                var jsonVeri = JsonSerializer.Serialize(calisanlarHepsi, jsonAyarlar);
+
+
+                File.WriteAllText(dosyaYolu, jsonVeri);
+                MessageBox.Show("Personel verileri başarıyla kaydedildi!");
+            }
+            catch(Exception ex) {
+                MessageBox.Show("Hata",ex.Message);
+            }
         }
 
         private void btnHepsi_Click(object sender, EventArgs e)
@@ -89,9 +105,11 @@ namespace MaasBordroProjesi
                 MessageBox.Show("Lütfen bir çalışan seçiniz!");
                 return;
             }
+          
+            var secili = (Personel)cmbYcalisan.SelectedItem;
             foreach (var calisan in calisanlarHepsi)
             {
-                if (calisan.Isim == cmbYcalisan.SelectedItem.ToString())
+                if (calisan.Id == secili.Id)
                 {
                     secilen = calisan;
                     break;
@@ -103,7 +121,7 @@ namespace MaasBordroProjesi
             // Yeni ListView item oluştur
             ListViewItem item = new ListViewItem(secilen.Isim);
             item.SubItems.Add(secilen.Saat.ToString());
-            item.SubItems.Add(secilen.Maas.ToString());
+            item.SubItems.Add(secilen.Maas.ToString("C2"));
             item.SubItems.Add(secilen.Derece.ToString());
             if (secilen.Saat < 180)
             {
@@ -129,27 +147,40 @@ namespace MaasBordroProjesi
 
         public void CalisanJson()
         {
-            if (cmbYcalisan.SelectedItem == null)
+            try
             {
-                MessageBox.Show("Lütfen bir çalışan seçiniz!");
-                return;
-            }
-            string projeDizini = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string Tarih = DateTime.Now.ToString("MM-yyyy");
-            //projenin içine girmek için 
-            string hedefDizin = Path.Combine(projeDizini, @"..\..\..\", "DataPersonelKisi");
-            string dosyaYolu = Path.Combine(hedefDizin, $"{secilen.Isim}_{Tarih}.json");
+                if (cmbYcalisan.SelectedItem == null)
+                {
+                    MessageBox.Show("Lütfen bir çalışan seçiniz!");
+                    return;
+                }
+                if (secilen == null)
+                {
+                    MessageBox.Show("Calışan Seçilmedi !");
+                    return;
+                }
 
-            if (!Directory.Exists(hedefDizin))
+                string projeDizini = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string Tarih = DateTime.Now.ToString("MM-yyyy");
+                //projenin içine girmek için 
+                string hedefDizin = Path.Combine(projeDizini, @"..\..\..\", "DataPersonelKisi");
+                string dosyaYolu = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, hedefDizin, $"{secilen.Isim}_{Tarih}.json");
+
+                if (!Directory.Exists(hedefDizin))
+                {
+                    Directory.CreateDirectory(hedefDizin);
+                }
+
+                var jsonAyarlar = new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+                string jsonVeri = JsonSerializer.Serialize(secilen, jsonAyarlar);
+                File.WriteAllText(dosyaYolu, jsonVeri);
+                MessageBox.Show("Personel verileri başarıyla kaydedildi!");
+            }
+            catch(Exception ex)
             {
-                Directory.CreateDirectory(hedefDizin);
+                MessageBox.Show("Hata",ex.Message);
+
             }
-
-            var jsonAyarlar = new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
-            string jsonVeri = JsonSerializer.Serialize(secilen, jsonAyarlar);
-            File.WriteAllText(dosyaYolu, jsonVeri);
-            MessageBox.Show("Personel verileri başarıyla kaydedildi!");
-
 
 
         }
@@ -167,10 +198,15 @@ namespace MaasBordroProjesi
 
         public void PDF()
         {
-        
+
 
             try
             {
+                if (calisanlarHepsi == null)
+                {
+                    MessageBox.Show("çalışan yok");
+                    return;
+                }
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "PDF Dosyası|*.pdf";
                 saveFileDialog.Title = "PDF Dosyası Kaydet";
@@ -192,7 +228,7 @@ namespace MaasBordroProjesi
                     date.Font.Size = 12; // Font boyutunu ayarla
                     document.Add(date);
 
-                 
+
                     document.Add(new Paragraph("\n"));
 
                     // Tablo oluştur
@@ -252,7 +288,7 @@ namespace MaasBordroProjesi
 
                     MessageBox.Show("PDF başarıyla kaydedildi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                   
+
                 }
             }
             catch (Exception ex)
@@ -264,5 +300,7 @@ namespace MaasBordroProjesi
         {
             PDF();
         }
+
+
     }
 }

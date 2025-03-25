@@ -6,13 +6,21 @@ namespace Bordro
 {
     public abstract class Personel
     {
+        public int Id { get; set; } 
         public string Isim { get; set; }
         public decimal Saat { get; set; }
 
         public MemurDerecesi Derece { get; set; }
+        public decimal  SaatlikVerilenUcret { get; set; }
+        public decimal AnaOdeme { get; set; }
+        public decimal MesaiUcret { get; set; }
+
         public decimal Maas { get; private set; }
 
         public abstract decimal MaasHesapla();
+        /// <summary>
+        ///Maashesapla metodundan doğrudan değer alamadığım için ve güncellenmesi için Maas değişkenine atandı.
+        /// </summary>
         public void MaasAta()
         {
             Maas = MaasHesapla();
@@ -29,7 +37,7 @@ namespace Bordro
     }
     public class Yonetici : Personel
     {
-        public decimal bonus { get; set; } = 0;
+        public decimal Bonus { get; set; } = 0;
         public override decimal MaasHesapla()
         {
             decimal SonMaas;
@@ -39,8 +47,12 @@ namespace Bordro
             {
                 ekMesai = (Saat - 180) * Derece.SaatlikUcret * 1.5m;
             }
+            MesaiUcret= ekMesai;
 
-            SonMaas = (Derece.SaatlikUcret * Saat) + bonus;
+            SonMaas = (Derece.SaatlikUcret * Saat) + Bonus;
+
+            AnaOdeme = SonMaas;
+
             return SonMaas + ekMesai;
         }
     }
@@ -56,8 +68,11 @@ namespace Bordro
             {
                 ekMesai = (Saat - 180) * Derece.SaatlikUcret * 1.5m;
             }
+            MesaiUcret= ekMesai;
             
                 SonMaas = Derece.SaatlikUcret * Saat;
+
+            AnaOdeme= SonMaas;
             
             return SonMaas + ekMesai;
 
