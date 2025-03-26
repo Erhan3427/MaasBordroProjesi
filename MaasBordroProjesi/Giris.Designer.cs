@@ -37,12 +37,14 @@
             btnYönetici = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
             btnKaydet = new Button();
-            txtİsim = new TextBox();
+            txtIsim = new TextBox();
             lblGiris = new Label();
             pictureBox1 = new PictureBox();
+            pictureBox2 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)npSaat).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCalisanlar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // lblMetin
@@ -50,11 +52,11 @@
             lblMetin.AutoSize = true;
             lblMetin.Font = new Font("Segoe UI", 10F);
             lblMetin.ForeColor = SystemColors.ButtonHighlight;
-            lblMetin.Location = new Point(398, 171);
+            lblMetin.Location = new Point(405, 169);
             lblMetin.Name = "lblMetin";
-            lblMetin.Size = new Size(316, 23);
+            lblMetin.Size = new Size(320, 23);
             lblMetin.TabIndex = 15;
-            lblMetin.Text = "Yeni Çalışanın bu ay Çalıştığı saati giriniz";
+            lblMetin.Text = "Yeni çalışanın  aylık çalışma saatini giriniz";
             // 
             // npSaat
             // 
@@ -68,7 +70,7 @@
             // 
             dgvCalisanlar.BackgroundColor = Color.FromArgb(44, 62, 80);
             dgvCalisanlar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCalisanlar.Location = new Point(-3, 269);
+            dgvCalisanlar.Location = new Point(-3, 272);
             dgvCalisanlar.Name = "dgvCalisanlar";
             dgvCalisanlar.ReadOnly = true;
             dgvCalisanlar.RowHeadersWidth = 51;
@@ -78,9 +80,10 @@
             // 
             // btnSaat
             // 
-            btnSaat.BackColor = Color.FromArgb(0, 86, 179);
+            btnSaat.BackColor = Color.MidnightBlue;
             btnSaat.FlatAppearance.BorderSize = 0;
             btnSaat.FlatStyle = FlatStyle.Flat;
+            btnSaat.ForeColor = SystemColors.ButtonHighlight;
             btnSaat.Location = new Point(731, 215);
             btnSaat.Name = "btnSaat";
             btnSaat.Size = new Size(181, 40);
@@ -99,33 +102,35 @@
             btnYönetici.Name = "btnYönetici";
             btnYönetici.Size = new Size(141, 47);
             btnYönetici.TabIndex = 20;
-            btnYönetici.Text = "Yönetim";
+            btnYönetici.Text = "Yonetim";
             btnYönetici.UseVisualStyleBackColor = false;
             btnYönetici.Click += btnYönetici_Click;
             // 
             // btnKaydet
             // 
-            btnKaydet.Location = new Point(338, 223);
+            btnKaydet.BackColor = Color.DarkRed;
+            btnKaydet.FlatStyle = FlatStyle.Flat;
+            btnKaydet.Location = new Point(343, 245);
             btnKaydet.Name = "btnKaydet";
             btnKaydet.Size = new Size(175, 43);
             btnKaydet.TabIndex = 21;
             btnKaydet.Text = "Giriş Yap";
-            btnKaydet.UseVisualStyleBackColor = true;
+            btnKaydet.UseVisualStyleBackColor = false;
             btnKaydet.Click += button1_Click_1;
             // 
-            // txtİsim
+            // txtIsim
             // 
-            txtİsim.Location = new Point(291, 175);
-            txtİsim.Name = "txtİsim";
-            txtİsim.Size = new Size(271, 27);
-            txtİsim.TabIndex = 22;
+            txtIsim.Location = new Point(296, 197);
+            txtIsim.Name = "txtIsim";
+            txtIsim.Size = new Size(271, 27);
+            txtIsim.TabIndex = 22;
             // 
             // lblGiris
             // 
             lblGiris.AutoSize = true;
             lblGiris.Font = new Font("Segoe UI", 10F);
             lblGiris.ForeColor = SystemColors.ButtonHighlight;
-            lblGiris.Location = new Point(291, 135);
+            lblGiris.Location = new Point(296, 157);
             lblGiris.Name = "lblGiris";
             lblGiris.Size = new Size(266, 23);
             lblGiris.TabIndex = 23;
@@ -134,12 +139,22 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(-3, -2);
+            pictureBox1.Location = new Point(-1, -6);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(929, 325);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 24;
             pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(-3, 167);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(929, 332);
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.TabIndex = 25;
+            pictureBox2.TabStop = false;
             // 
             // Giris
             // 
@@ -148,7 +163,7 @@
             BackColor = Color.FromArgb(34, 33, 74);
             ClientSize = new Size(924, 450);
             Controls.Add(lblGiris);
-            Controls.Add(txtİsim);
+            Controls.Add(txtIsim);
             Controls.Add(btnKaydet);
             Controls.Add(btnYönetici);
             Controls.Add(btnSaat);
@@ -156,12 +171,15 @@
             Controls.Add(lblMetin);
             Controls.Add(npSaat);
             Controls.Add(pictureBox1);
+            Controls.Add(pictureBox2);
             Name = "Giris";
-            Text = "Giriş";
-            Load += Giriş_Load;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Giris";
+            Load += Giris_Load;
             ((System.ComponentModel.ISupportInitialize)npSaat).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvCalisanlar).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -174,8 +192,9 @@
         private Button btnYönetici;
         private System.Windows.Forms.Timer timer1;
         private Button btnKaydet;
-        private TextBox txtİsim;
+        private TextBox txtIsim;
         private Label lblGiris;
         private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
     }
 }

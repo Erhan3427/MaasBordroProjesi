@@ -1,0 +1,15 @@
+[
+  {
+    "Id": 7,
+    "Isim": "Emir Uz",
+    "Saat": 1,
+    "Derece": {
+      "DereceAdi": "Yönetici",
+      "SaatlikUcret": 600
+    },
+    "SaatlikVerilenUcret": 600,
+    "AnaOdeme": 600,
+    "MesaiUcret": 0,
+    "Maas": 600
+  }
+]

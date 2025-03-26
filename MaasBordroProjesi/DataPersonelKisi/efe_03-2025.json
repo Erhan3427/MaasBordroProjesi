@@ -1,0 +1,13 @@
+{
+  "Id": 3,
+  "Isim": "efe",
+  "Saat": 150,
+  "Derece": {
+    "DereceAdi": "Kidemli",
+    "SaatlikUcret": 535
+  },
+  "SaatlikVerilenUcret": 535,
+  "AnaOdeme": 80250,
+  "MesaiUcret": 0,
+  "Maas": 80250
+}

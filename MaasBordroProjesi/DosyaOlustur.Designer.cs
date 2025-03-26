@@ -28,14 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             btnHepsi = new Button();
             btnCalisan = new Button();
             cmbYcalisan = new ComboBox();
             label1 = new Label();
             lsvtRapor = new ListView();
             button1 = new Button();
-            btnPdf = new Button();
+            btnAzCalisan = new Button();
             richTextBox1 = new RichTextBox();
+            btnPDF = new Button();
+            toolTip1 = new ToolTip(components);
+            btnGeriDon = new Button();
             SuspendLayout();
             // 
             // btnHepsi
@@ -47,7 +51,7 @@
             btnHepsi.Name = "btnHepsi";
             btnHepsi.Size = new Size(251, 61);
             btnHepsi.TabIndex = 0;
-            btnHepsi.Text = "Tüm Çalışanların bordrosunu oluştur";
+            btnHepsi.Text = "Tüm çalışanların bordrosunu oluştur";
             btnHepsi.UseVisualStyleBackColor = false;
             btnHepsi.Click += btnHepsi_Click;
             // 
@@ -68,16 +72,17 @@
             // 
             cmbYcalisan.FlatStyle = FlatStyle.Popup;
             cmbYcalisan.FormattingEnabled = true;
-            cmbYcalisan.Location = new Point(12, 114);
+            cmbYcalisan.Location = new Point(12, 133);
             cmbYcalisan.Name = "cmbYcalisan";
             cmbYcalisan.Size = new Size(259, 28);
             cmbYcalisan.TabIndex = 1;
+            cmbYcalisan.Leave += cmbYcalisan_Leave;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.ForeColor = SystemColors.ButtonHighlight;
-            label1.Location = new Point(12, 76);
+            label1.Location = new Point(12, 95);
             label1.Name = "label1";
             label1.Size = new Size(108, 20);
             label1.TabIndex = 2;
@@ -98,7 +103,7 @@
             button1.BackColor = Color.FromArgb(176, 176, 176);
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
-            button1.Location = new Point(301, 107);
+            button1.Location = new Point(300, 126);
             button1.Name = "button1";
             button1.Size = new Size(122, 40);
             button1.TabIndex = 4;
@@ -106,17 +111,17 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
-            // btnPdf
+            // btnAzCalisan
             // 
-            btnPdf.BackColor = Color.FromArgb(176, 176, 176);
-            btnPdf.FlatStyle = FlatStyle.Flat;
-            btnPdf.Location = new Point(537, 377);
-            btnPdf.Name = "btnPdf";
-            btnPdf.Size = new Size(251, 61);
-            btnPdf.TabIndex = 0;
-            btnPdf.Text = "Tüm çalışanların PDF'ini oluştur";
-            btnPdf.UseVisualStyleBackColor = false;
-            btnPdf.Click += btnPdf_Click;
+            btnAzCalisan.BackColor = Color.FromArgb(176, 176, 176);
+            btnAzCalisan.FlatStyle = FlatStyle.Flat;
+            btnAzCalisan.Location = new Point(537, 377);
+            btnAzCalisan.Name = "btnAzCalisan";
+            btnAzCalisan.Size = new Size(251, 61);
+            btnAzCalisan.TabIndex = 0;
+            btnAzCalisan.Text = "Az çalışanların listesini oluştur";
+            btnAzCalisan.UseVisualStyleBackColor = false;
+            btnAzCalisan.Click += btnAzCalisan_Click;
             // 
             // richTextBox1
             // 
@@ -124,12 +129,38 @@
             richTextBox1.BorderStyle = BorderStyle.None;
             richTextBox1.Font = new Font("Constantia", 13.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
             richTextBox1.ForeColor = SystemColors.Window;
-            richTextBox1.Location = new Point(505, 12);
+            richTextBox1.Location = new Point(503, 12);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ScrollBars = RichTextBoxScrollBars.None;
-            richTextBox1.Size = new Size(283, 149);
+            richTextBox1.Size = new Size(238, 149);
             richTextBox1.TabIndex = 5;
             richTextBox1.Text = "  ╔══════════════════╗\n  ║   MAAS  ══╗      ║\n  ║           ║      ║\n  ║   BORDRO  ╚══    ║\n  ╚══════════════════╝\n\n\n";
+            // 
+            // btnPDF
+            // 
+            btnPDF.BackColor = Color.FromArgb(176, 176, 176);
+            btnPDF.FlatAppearance.BorderSize = 0;
+            btnPDF.FlatStyle = FlatStyle.Flat;
+            btnPDF.Location = new Point(12, 12);
+            btnPDF.Name = "btnPDF";
+            btnPDF.Size = new Size(201, 51);
+            btnPDF.TabIndex = 4;
+            btnPDF.Text = "Tüm çalışanları PDF oluştur";
+            btnPDF.UseVisualStyleBackColor = false;
+            btnPDF.Click += btnPdf_Click;
+            // 
+            // btnGeriDon
+            // 
+            btnGeriDon.BackColor = Color.Maroon;
+            btnGeriDon.FlatAppearance.BorderSize = 0;
+            btnGeriDon.FlatStyle = FlatStyle.Flat;
+            btnGeriDon.Location = new Point(300, 12);
+            btnGeriDon.Name = "btnGeriDon";
+            btnGeriDon.Size = new Size(122, 40);
+            btnGeriDon.TabIndex = 4;
+            btnGeriDon.Text = "Geri Dön";
+            btnGeriDon.UseVisualStyleBackColor = false;
+            btnGeriDon.Click += btnGeriDon_Click;
             // 
             // YoneticiPersonel
             // 
@@ -138,14 +169,17 @@
             BackColor = Color.FromArgb(34, 33, 74);
             ClientSize = new Size(800, 450);
             Controls.Add(richTextBox1);
+            Controls.Add(btnPDF);
+            Controls.Add(btnGeriDon);
             Controls.Add(button1);
             Controls.Add(lsvtRapor);
             Controls.Add(label1);
             Controls.Add(cmbYcalisan);
             Controls.Add(btnCalisan);
-            Controls.Add(btnPdf);
+            Controls.Add(btnAzCalisan);
             Controls.Add(btnHepsi);
             Name = "YoneticiPersonel";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Yonetici";
             Load += Yonetici_Load;
             ResumeLayout(false);
@@ -160,7 +194,10 @@
         private Label label1;
         private ListView lsvtRapor;
         private Button button1;
-        private Button btnPdf;
+        private Button btnAzCalisan;
         private RichTextBox richTextBox1;
+        private Button btnPDF;
+        private ToolTip toolTip1;
+        private Button btnGeriDon;
     }
 }

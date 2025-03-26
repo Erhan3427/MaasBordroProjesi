@@ -1,6 +1,6 @@
 ﻿namespace MaasBordroProjesi
 {
-    partial class Form1
+    partial class Yonetim
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Yonetim));
             txtİsim = new TextBox();
             npSaat = new NumericUpDown();
             cmbKıdem = new ComboBox();
@@ -45,7 +46,6 @@
             lblMesaj = new Label();
             panel2 = new Panel();
             label4 = new Label();
-            ıconMenuItem1 = new FontAwesome.Sharp.IconMenuItem();
             ((System.ComponentModel.ISupportInitialize)npSaat).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCalisanlar).BeginInit();
             panel1.SuspendLayout();
@@ -165,7 +165,7 @@
             btnYonetim.BackColor = Color.Maroon;
             btnYonetim.FlatAppearance.BorderSize = 0;
             btnYonetim.FlatAppearance.MouseDownBackColor = Color.IndianRed;
-            btnYonetim.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            btnYonetim.FlatAppearance.MouseOverBackColor = Color.Maroon;
             btnYonetim.FlatStyle = FlatStyle.Flat;
             btnYonetim.ForeColor = SystemColors.ButtonHighlight;
             btnYonetim.Location = new Point(555, 19);
@@ -201,9 +201,11 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(0, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(107, 108);
+            pictureBox1.Size = new Size(110, 110);
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBox1.TabIndex = 10;
             pictureBox1.TabStop = false;
             // 
@@ -238,16 +240,7 @@
             label4.TabIndex = 4;
             label4.Text = "Calısılan Saat";
             // 
-            // ıconMenuItem1
-            // 
-            ıconMenuItem1.IconChar = FontAwesome.Sharp.IconChar.None;
-            ıconMenuItem1.IconColor = Color.Black;
-            ıconMenuItem1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            ıconMenuItem1.Name = "ıconMenuItem1";
-            ıconMenuItem1.Size = new Size(32, 19);
-            ıconMenuItem1.Text = "ıconMenuItem1";
-            // 
-            // Form1
+            // Yonetim
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -263,8 +256,9 @@
             Controls.Add(txtİsim);
             Controls.Add(panel1);
             Controls.Add(panel2);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "Yonetim";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Yonetim";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)npSaat).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvCalisanlar).EndInit();
@@ -294,7 +288,6 @@
         private Panel panel1;
         private Panel panel2;
         private Label label4;
-        private FontAwesome.Sharp.IconMenuItem ıconMenuItem1;
         private Label lblMesaj;
         private PictureBox pictureBox1;
     }

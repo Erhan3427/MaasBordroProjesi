@@ -15,18 +15,23 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Document = System.Reflection.Metadata.Document;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MaasBordroProjesi
 {
     public partial class YoneticiPersonel : Form
     {
         private List<Personel> calisanlarHepsi = new List<Personel>();
+        private List<Personel> azCalisanlar = new List<Personel>();
+
         public int bonus;
 
-        public YoneticiPersonel(List<Personel> calisanlar)
+        public YoneticiPersonel(List<Personel> calisanlar, List<Personel> azCalisan)
         {
             InitializeComponent();
             calisanlarHepsi = calisanlar;
+            azCalisanlar = azCalisan;
+          
 
         }
 
@@ -34,6 +39,11 @@ namespace MaasBordroProjesi
         {
             lsvtRapor.View = View.Details; // Detaylı görünüm modu
             lsvtRapor.GridLines = true; // Çizgileri göster
+            toolTip1.AutoPopDelay = 5000; // 5 saniye sonra kaybolur
+            toolTip1.InitialDelay = 500; // 0.5 saniye sonra gösterir
+            toolTip1.ReshowDelay = 200; // Yeniden gösterme süresi
+            toolTip1.ShowAlways = true; // Form üzerinde her zaman göster
+
 
 
             // ListView kolonlarını oluştur
@@ -48,6 +58,11 @@ namespace MaasBordroProjesi
             {
                 cmbYcalisan.Items.Add(kisi);
             }
+            
+            toolTip1.SetToolTip(btnAzCalisan, "Bu buton az çalışanların json dosyasını oluşturur.");
+            toolTip1.SetToolTip(btnCalisan, "Bu buton sadece  comboboxtan seçilen çalışanın json dosyasını oluşturur.");
+            toolTip1.SetToolTip(btnHepsi, "Bu buton Tüm çalışanların json dosyasını oluşturur.");
+            toolTip1.SetToolTip(btnPDF, "Bu buton tüm çalışanların PDF dosyasını oluşturur.");
         }
 
 
@@ -86,8 +101,9 @@ namespace MaasBordroProjesi
                 File.WriteAllText(dosyaYolu, jsonVeri);
                 MessageBox.Show("Personel verileri başarıyla kaydedildi!");
             }
-            catch(Exception ex) {
-                MessageBox.Show("Hata",ex.Message);
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hata", ex.Message);
             }
         }
 
@@ -100,12 +116,13 @@ namespace MaasBordroProjesi
         Personel secilen;
         public void Goster()
         {
+
             if (cmbYcalisan.SelectedItem == null)
             {
                 MessageBox.Show("Lütfen bir çalışan seçiniz!");
                 return;
             }
-          
+
             var secili = (Personel)cmbYcalisan.SelectedItem;
             foreach (var calisan in calisanlarHepsi)
             {
@@ -115,6 +132,11 @@ namespace MaasBordroProjesi
                     break;
                 }
 
+            }
+            if (secilen == null)
+            {
+                MessageBox.Show("Seçili çalışan bulunamadı.");
+                return;
             }
             lsvtRapor.Items.Clear();
 
@@ -176,9 +198,9 @@ namespace MaasBordroProjesi
                 File.WriteAllText(dosyaYolu, jsonVeri);
                 MessageBox.Show("Personel verileri başarıyla kaydedildi!");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Hata",ex.Message);
+                MessageBox.Show("Hata", ex.Message);
 
             }
 
@@ -251,8 +273,8 @@ namespace MaasBordroProjesi
                         PdfPCell cellIsim = new PdfPCell(new Phrase(personel.Isim));
                         PdfPCell cellSaat = new PdfPCell(new Phrase(personel.Saat.ToString()));
                         PdfPCell cellDerece = new PdfPCell(new Phrase(personel.Derece.ToString()));
-                        PdfPCell cellMaas = new PdfPCell(new Phrase(personel.Maas.ToString("C"))); // Para birimi formatı
-                        PdfPCell cellUyari = new PdfPCell(new Phrase(personel.Saat < 150 ? "Çalışma saati yetersiz!" : "")); // Uyarı hücresi
+                        PdfPCell cellMaas = new PdfPCell(new Phrase(personel.Maas.ToString("C2"))); // Para birimi formatı
+                        PdfPCell cellUyari = new PdfPCell(new Phrase(personel.Saat <= 150 ? "Çalışma saati yetersiz!" : "")); // Uyarı hücresi
 
 
 
@@ -301,6 +323,58 @@ namespace MaasBordroProjesi
             PDF();
         }
 
+        private void cmbYcalisan_Leave(object sender, EventArgs e)
+        {
 
+        }
+
+        private void btnAzCalisan_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                if (azCalisanlar == null)
+                {
+                    MessageBox.Show("çalışan yok");
+                    return;
+                }
+                string projeDizini = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+                //projenin içine girmek için 
+                string hedefDizin = Path.Combine(projeDizini, @"..\..\..\", "DataAzCalisan");
+                string dosyaYolu = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, hedefDizin, "AzCalisanPersoneller.json");
+
+                if (!Directory.Exists(hedefDizin))
+                {
+                    Directory.CreateDirectory(hedefDizin);
+                }
+
+                if (azCalisanlar.Count == 0)
+                {
+                    MessageBox.Show("Kaydedilecek personel bulunamadı!");
+                    return;
+                }
+
+                var jsonAyarlar = new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+
+
+                var jsonVeri = JsonSerializer.Serialize(azCalisanlar, jsonAyarlar);
+
+
+                File.WriteAllText(dosyaYolu, jsonVeri);
+                MessageBox.Show("Personel verileri başarıyla kaydedildi!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hata", ex.Message);
+            }
+        }
+
+      
+
+        private void btnGeriDon_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
