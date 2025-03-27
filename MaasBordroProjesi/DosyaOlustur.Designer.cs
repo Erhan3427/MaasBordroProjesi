@@ -34,7 +34,6 @@
             cmbYcalisan = new ComboBox();
             label1 = new Label();
             lsvtRapor = new ListView();
-            btnCalisaniGoster = new Button();
             btnAzCalisan = new Button();
             richTextBox1 = new RichTextBox();
             btnPDF = new Button();
@@ -43,6 +42,7 @@
             btnAzCalisanlarGoster = new Button();
             btnAzCalisanPdf = new Button();
             btnCikis = new Button();
+            btnTumCalisaniGoster = new Button();
             SuspendLayout();
             // 
             // btnHepsi
@@ -84,12 +84,14 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.FlatStyle = FlatStyle.Flat;
+            label1.Font = new Font("Segoe UI", 9F);
             label1.ForeColor = SystemColors.ButtonHighlight;
-            label1.Location = new Point(12, 95);
+            label1.Location = new Point(7, 105);
             label1.Name = "label1";
-            label1.Size = new Size(108, 20);
+            label1.Size = new Size(260, 20);
             label1.TabIndex = 2;
-            label1.Text = "Çalışanı seçiniz";
+            label1.Text = "Bordro Oluşturulacak Çalışanı Seçiniz :";
             // 
             // lsvtRapor
             // 
@@ -100,19 +102,6 @@
             lsvtRapor.TabIndex = 3;
             lsvtRapor.UseCompatibleStateImageBehavior = false;
             lsvtRapor.SelectedIndexChanged += listView1_SelectedIndexChanged;
-            // 
-            // btnCalisaniGoster
-            // 
-            btnCalisaniGoster.BackColor = Color.FromArgb(176, 176, 176);
-            btnCalisaniGoster.FlatAppearance.BorderSize = 0;
-            btnCalisaniGoster.FlatStyle = FlatStyle.Flat;
-            btnCalisaniGoster.Location = new Point(308, 131);
-            btnCalisaniGoster.Name = "btnCalisaniGoster";
-            btnCalisaniGoster.Size = new Size(155, 40);
-            btnCalisaniGoster.TabIndex = 4;
-            btnCalisaniGoster.Text = "Çalışanı Göster";
-            btnCalisaniGoster.UseVisualStyleBackColor = false;
-            btnCalisaniGoster.Click += btnCalisaniGoster_Click;
             // 
             // btnAzCalisan
             // 
@@ -154,7 +143,7 @@
             // 
             // btnGeriDon
             // 
-            btnGeriDon.BackColor = Color.Maroon;
+            btnGeriDon.BackColor = Color.FromArgb(192, 0, 0);
             btnGeriDon.FlatAppearance.BorderSize = 0;
             btnGeriDon.FlatStyle = FlatStyle.Flat;
             btnGeriDon.Location = new Point(737, 12);
@@ -193,16 +182,29 @@
             // 
             // btnCikis
             // 
-            btnCikis.BackColor = Color.Maroon;
+            btnCikis.BackColor = Color.FromArgb(192, 0, 0);
             btnCikis.FlatAppearance.BorderSize = 0;
             btnCikis.FlatStyle = FlatStyle.Flat;
-            btnCikis.Location = new Point(737, 121);
+            btnCikis.Location = new Point(737, 58);
             btnCikis.Name = "btnCikis";
             btnCikis.Size = new Size(155, 40);
             btnCikis.TabIndex = 4;
             btnCikis.Text = "Çıkış";
             btnCikis.UseVisualStyleBackColor = false;
             btnCikis.Click += btnCikis_Click;
+            // 
+            // btnTumCalisaniGoster
+            // 
+            btnTumCalisaniGoster.BackColor = Color.FromArgb(176, 176, 176);
+            btnTumCalisaniGoster.FlatAppearance.BorderSize = 0;
+            btnTumCalisaniGoster.FlatStyle = FlatStyle.Flat;
+            btnTumCalisaniGoster.Location = new Point(308, 131);
+            btnTumCalisaniGoster.Name = "btnTumCalisaniGoster";
+            btnTumCalisaniGoster.Size = new Size(155, 40);
+            btnTumCalisaniGoster.TabIndex = 4;
+            btnTumCalisaniGoster.Text = "Tüm Çalışanı Göster";
+            btnTumCalisaniGoster.UseVisualStyleBackColor = false;
+            btnTumCalisaniGoster.Click += btnTumCalisaniGoster_Click;
             // 
             // YoneticiPersonel
             // 
@@ -215,7 +217,7 @@
             Controls.Add(btnCikis);
             Controls.Add(btnGeriDon);
             Controls.Add(btnAzCalisanlarGoster);
-            Controls.Add(btnCalisaniGoster);
+            Controls.Add(btnTumCalisaniGoster);
             Controls.Add(lsvtRapor);
             Controls.Add(label1);
             Controls.Add(cmbYcalisan);
@@ -240,7 +242,6 @@
         private ComboBox cmbYcalisan;
         private Label label1;
         private ListView lsvtRapor;
-        private Button btnCalisaniGoster;
         private Button btnAzCalisan;
         private RichTextBox richTextBox1;
         private Button btnPDF;
@@ -249,5 +250,6 @@
         private Button btnAzCalisanlarGoster;
         private Button btnAzCalisanPdf;
         private Button btnCikis;
+        private Button btnTumCalisaniGoster;
     }
 }

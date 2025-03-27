@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -29,18 +30,22 @@ namespace MaasBordroProjesi
             btnSaat.Visible = false;
             btnYönetici.Visible = false;
             dgvCalisanlar.Visible = false;
+            btngeriDon.Visible = false;
+
         }
 
-        MemurDerecesi memurSaat = new MemurDerecesi();
+      
         private void Giris_Load(object sender, EventArgs e)
         {
             // DataGridView ayarları
             dgvCalisanlar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Sütunların otomatik olarak doldurulması
             dgvCalisanlar.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; // Satırların otomatik olarak doldurulması
             dgvCalisanlar.AutoGenerateColumns = true;
+            dgvCalisanlar.DefaultCellStyle.SelectionBackColor = Color.MidnightBlue;
 
-            toolTip1.SetToolTip(btnYönetici, "Yönetim formuna geçiş yapar ");
-            toolTip1.SetToolTip(btnSaat, "yeni çalışana bu ayki çalıştığı saati yazdırıp maaşını hesaplar ");
+
+            toolTip1.SetToolTip(btnYönetici, "Yönetim paneline geçiş yapar");
+            toolTip1.SetToolTip(btnSaat, "Çalışanın bu ayki çalışma saatini girmenizi ve maaş hesaplamanızı sağlar");
             try
             {
                 // JSON'dan memur verilerini oku
@@ -73,6 +78,8 @@ namespace MaasBordroProjesi
             dgvCalisanlar.DataSource = tumCalisan;
             dgvCalisanlar.Columns["Maas"].DefaultCellStyle.Format = "C2";
             dgvCalisanlar.Columns["MesaiUcret"].DefaultCellStyle.Format = "C2";
+            dgvCalisanlar.Columns["AnaOdeme"].DefaultCellStyle.Format = "C2";
+
         }
         /// <summary>
         /// Seçili çalışanın saat bilgisini günceller.
@@ -86,6 +93,7 @@ namespace MaasBordroProjesi
                 if (secilen != null)
                 {
                     secilen.Saat = Convert.ToDecimal(npSaat.Value);
+
                     secilen.MaasAta();
                 }
                 dgvCalisanlar.Refresh();
@@ -116,7 +124,8 @@ namespace MaasBordroProjesi
         /// <summary>
         /// Kullanıcı giriş butonuna tıkladığında çalışır.
         /// </summary>
-        private void button1_Click_1(object sender, EventArgs e)
+        /// 
+        public void GirisButon()
         {
             // İsim içinde rakam olup olmadığını kontrol et
             if (txtIsim.Text.Any(char.IsDigit))
@@ -127,18 +136,20 @@ namespace MaasBordroProjesi
             // Noktalama işareti veya sembol olup olmadığını kontrol et
             if (txtIsim.Text.Any(c => char.IsPunctuation(c) || char.IsSymbol(c)))
             {
-                MessageBox.Show("Noktalama işareti girmeyiniz Lütfen !");
+                MessageBox.Show("Noktalama işareti veya sembol  girmeyiniz Lütfen !");
                 return;
             }
             // İsim boş değilse işlemi devam ettir
             if (!string.IsNullOrWhiteSpace(txtIsim.Text))
             {
+               txtIsim.Text= BosluklarıSil(txtIsim.Text);
                 isim = txtIsim.Text.ToUpper();
                 lblMetin.Visible = true;
                 npSaat.Visible = true;
                 btnSaat.Visible = true;
                 btnYönetici.Visible = true;
                 dgvCalisanlar.Visible = true;
+                btngeriDon.Visible = true;
                 txtIsim.Visible = false;
                 btnKaydet.Visible = false;
                 lblGiris.Visible = false;
@@ -151,6 +162,10 @@ namespace MaasBordroProjesi
             }
 
         }
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            GirisButon();
+        }
 
         //entere basınca  isim kaydeden butonu çalıştırır 
         private void Giris_KeyDown_1(object sender, KeyEventArgs e)
@@ -158,10 +173,36 @@ namespace MaasBordroProjesi
             if (e.KeyCode == Keys.Enter)
             {
                 btnKaydet.PerformClick(); // Enter'a basınca Kaydet butonu çalışsın
-                e.SuppressKeyPress = true; // Varsayılan "beep" sesini engelle
             }
+        }
+        public static string BosluklarıSil(string input)
+        {
+
+
+            // Baştaki ve sondaki boşlukları temizle.
+            input = input.Trim();
+
+            // Birden fazla boşluğu tek boşluğa çevir.
+            input = Regex.Replace(input, @"\s+", " ");
+
+            return input;
+        }
+
+        private void btngeriDon_Click(object sender, EventArgs e)
+        {
+            lblMetin.Visible = false;
+            npSaat.Visible = false;
+            btnSaat.Visible = false;
+            btnYönetici.Visible = false;
+            dgvCalisanlar.Visible = false;
+            btngeriDon.Visible = false;
+
+            txtIsim.Visible = true;
+            btnKaydet.Visible = true;
+            lblGiris.Visible = true;
         }
 
 
     }
 }
+

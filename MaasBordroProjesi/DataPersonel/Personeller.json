@@ -1,18 +1,5 @@
 [
   {
-    "Id": 6,
-    "Isim": "Ayşenur",
-    "Saat": 50,
-    "Derece": {
-      "DereceAdi": "Deneyimli",
-      "SaatlikUcret": 510
-    },
-    "SaatlikVerilenUcret": 510,
-    "AnaOdeme": 25500,
-    "MesaiUcret": 0,
-    "Maas": 25500
-  },
-  {
     "Id": 1,
     "Isim": "Hazal tokmak",
     "Saat": 149,
@@ -60,9 +47,9 @@
       "SaatlikUcret": 600
     },
     "SaatlikVerilenUcret": 600,
-    "AnaOdeme": 137000,
+    "AnaOdeme": 132000,
     "MesaiUcret": 36000.0,
-    "Maas": 173000.0
+    "Maas": 168000.0
   },
   {
     "Id": 5,
@@ -76,5 +63,18 @@
     "AnaOdeme": 132000,
     "MesaiUcret": 36000.0,
     "Maas": 168000.0
+  },
+  {
+    "Id": 6,
+    "Isim": "Ayşenur ",
+    "Saat": 70,
+    "Derece": {
+      "DereceAdi": "Deneyimli",
+      "SaatlikUcret": 510
+    },
+    "SaatlikVerilenUcret": 510,
+    "AnaOdeme": 35700,
+    "MesaiUcret": 0,
+    "Maas": 35700
   }
 ]

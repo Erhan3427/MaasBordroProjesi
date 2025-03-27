@@ -1,5 +1,4 @@
 [
-
   {
     "Id": 1,
     "Isim": "Hazal tokmak",
@@ -15,15 +14,15 @@
   },
   {
     "Id": 6,
-    "Isim": "Ayşenur",
-    "Saat": 50,
+    "Isim": "Ayşenur ",
+    "Saat": 70,
     "Derece": {
       "DereceAdi": "Deneyimli",
       "SaatlikUcret": 510
     },
     "SaatlikVerilenUcret": 510,
-    "AnaOdeme": 25500,
+    "AnaOdeme": 35700,
     "MesaiUcret": 0,
-    "Maas": 0
+    "Maas": 35700
   }
 ]

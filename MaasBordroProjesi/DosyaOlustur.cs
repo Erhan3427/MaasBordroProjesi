@@ -60,11 +60,14 @@ namespace MaasBordroProjesi
                 cmbYcalisan.Items.Add(kisi);
             }
             // Butonlara açıklama ekle
-            toolTip1.SetToolTip(btnAzCalisan, "Bu buton az çalışanların json dosyasını oluşturur.");
-            toolTip1.SetToolTip(btnCalisan, "Bu buton sadece  comboboxtan seçilen çalışanın json dosyasını oluşturur.");
-            toolTip1.SetToolTip(btnHepsi, "Bu buton Tüm çalışanların json dosyasını oluşturur.");
-            toolTip1.SetToolTip(btnPDF, "Bu buton tüm çalışanların PDF dosyasını oluşturur.");
-            toolTip1.SetToolTip(btnAzCalisan, "Az çalışanların PDF dosyasını oluşturur ");
+            toolTip1.SetToolTip(btnAzCalisan, "Bu buton, az çalışanların JSON dosyasını oluşturur.");
+            toolTip1.SetToolTip(btnCalisan, "Bu buton, sadece combobox'tan seçilen çalışanın JSON dosyasını oluşturur.");
+            toolTip1.SetToolTip(btnHepsi, "Bu buton, tüm çalışanların JSON dosyasını oluşturur.");
+            toolTip1.SetToolTip(btnPDF, "Bu buton, tüm çalışanların PDF dosyasını oluşturur.");
+            toolTip1.SetToolTip(btnAzCalisanPdf, "Bu buton, az çalışanların PDF dosyasını oluşturur.");
+            toolTip1.SetToolTip(btnAzCalisanlarGoster, "Bu buton, 150 saatten az çalışan personelleri aşağıda listeler.");
+            toolTip1.SetToolTip(btnGeriDon, "Bu buton, bir önceki forma geri dönmenizi sağlar.");
+            toolTip1.SetToolTip(btnCikis, "Programı Kapatır");
         }
 
         // Tüm çalışanları JSON formatında kaydeden fonksiyon
@@ -237,7 +240,7 @@ namespace MaasBordroProjesi
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    iTextSharp.text.Document document = new iTextSharp.text.Document(); 
+                    iTextSharp.text.Document document = new iTextSharp.text.Document();
                     PdfWriter.GetInstance(document, new FileStream(saveFileDialog.FileName, FileMode.Create));
                     document.Open();
 
@@ -252,7 +255,7 @@ namespace MaasBordroProjesi
                     BaseFont bfTimes = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                     iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(bfTimes, 18, iTextSharp.text.Font.BOLD);
                     iTextSharp.text.Font fontNormal = new iTextSharp.text.Font(bfTimes, 12, iTextSharp.text.Font.NORMAL);
-                    iTextSharp.text.Font fontWarning = new iTextSharp.text.Font(bfTimes, 12, iTextSharp.text.Font.BOLD,BaseColor.WHITE);
+                    iTextSharp.text.Font fontWarning = new iTextSharp.text.Font(bfTimes, 12, iTextSharp.text.Font.BOLD, BaseColor.WHITE);
 
 
                     // Başlık ve tarih ekle
@@ -277,7 +280,7 @@ namespace MaasBordroProjesi
                     // Başlıkları ekle
                     foreach (ColumnHeader column in lsvtRapor.Columns)
                     {
-                        PdfPCell cell = new PdfPCell(new Phrase(column.Text,fontNormal));
+                        PdfPCell cell = new PdfPCell(new Phrase(column.Text, fontNormal));
                         cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                         table.AddCell(cell);
                     }
@@ -290,7 +293,7 @@ namespace MaasBordroProjesi
                         PdfPCell cellIsim = new PdfPCell(new Phrase(personel.Isim, fontNormal));
                         PdfPCell cellSaat = new PdfPCell(new Phrase(personel.Saat.ToString(), fontNormal));
                         PdfPCell cellDerece = new PdfPCell(new Phrase(personel.Derece.ToString(), fontNormal));
-                        PdfPCell cellMaas = new PdfPCell(new Phrase(personel.Maas.ToString("C2", new CultureInfo("tr-TR")), fontNormal)); 
+                        PdfPCell cellMaas = new PdfPCell(new Phrase(personel.Maas.ToString("C2", new CultureInfo("tr-TR")), fontNormal));
                         PdfPCell cellUyari = new PdfPCell(new Phrase(personel.Saat < 150 ? "Çalışma saati yetersiz!" : "", fontWarning)); // Uyarı hücresi
 
 
@@ -430,7 +433,7 @@ namespace MaasBordroProjesi
             }
 
         }
-        // ...
+       
 
         public void AzCalisanlarPDF()
         {
@@ -454,7 +457,7 @@ namespace MaasBordroProjesi
                     document.Open();
 
 
-                    
+
                     string fontPath = "C:\\Windows\\Fonts\\times.ttf";   // Times New Roman
 
 
@@ -466,8 +469,8 @@ namespace MaasBordroProjesi
 
                     BaseFont bfArial = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                     iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(bfArial, 18, iTextSharp.text.Font.BOLD);
-                    iTextSharp.text.Font fontNormal = new iTextSharp.text.Font(bfArial, 12, iTextSharp.text.Font.NORMAL); 
-                    iTextSharp.text.Font fontWarning = new iTextSharp.text.Font(bfArial, 12, iTextSharp.text.Font.BOLD,BaseColor.WHITE); 
+                    iTextSharp.text.Font fontNormal = new iTextSharp.text.Font(bfArial, 12, iTextSharp.text.Font.NORMAL);
+                    iTextSharp.text.Font fontWarning = new iTextSharp.text.Font(bfArial, 12, iTextSharp.text.Font.BOLD, BaseColor.WHITE);
 
                     // Başlık ve tarih ekle
                     Paragraph title = new Paragraph("Az Çalışan Personel Raporu", fontTitle);
@@ -498,11 +501,11 @@ namespace MaasBordroProjesi
                     // Listedeki her bir personel bilgisini tabloya ekle
                     foreach (Personel personel in azCalisanlar)
                     {
-                        PdfPCell cellIsim = new PdfPCell(new Phrase(personel.Isim,fontNormal));
-                        PdfPCell cellSaat = new PdfPCell(new Phrase(personel.Saat.ToString(),fontNormal));
+                        PdfPCell cellIsim = new PdfPCell(new Phrase(personel.Isim, fontNormal));
+                        PdfPCell cellSaat = new PdfPCell(new Phrase(personel.Saat.ToString(), fontNormal));
                         PdfPCell cellDerece = new PdfPCell(new Phrase(personel.Derece.ToString(), fontNormal));
                         PdfPCell cellMaas = new PdfPCell(new Phrase(personel.Maas.ToString("C2", new CultureInfo("tr-TR")), fontNormal));
-                        PdfPCell cellUyari = new PdfPCell(new Phrase(personel.Saat < 150 ? "Çalışma saati yetersiz!" : "",fontWarning)); // Uyarı hücresi
+                        PdfPCell cellUyari = new PdfPCell(new Phrase(personel.Saat < 150 ? "Çalışma saati yetersiz!" : "", fontWarning)); // Uyarı hücresi
 
 
                         if (alternateRow)
@@ -550,6 +553,28 @@ namespace MaasBordroProjesi
         private void btnCikis_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnTumCalisaniGoster_Click(object sender, EventArgs e)
+        {
+            lsvtRapor.Items.Clear();
+            foreach (var item in calisanlarHepsi)
+            {
+                ListViewItem calisanlar = new ListViewItem(item.Isim);
+                calisanlar.SubItems.Add(item.Saat.ToString());
+                calisanlar.SubItems.Add(item.Maas.ToString("C2"));
+                calisanlar.SubItems.Add(item.Derece.ToString());
+                if (item.Saat < 150)
+                {
+                    calisanlar.BackColor = Color.Red;
+                    calisanlar.SubItems.Add("Çalışma saati  az ");
+                }
+
+
+                // ListView'e ekle
+                lsvtRapor.Items.Add(calisanlar);
+            }
+
         }
     }
 }

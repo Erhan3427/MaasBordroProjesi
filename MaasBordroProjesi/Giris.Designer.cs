@@ -42,6 +42,7 @@
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             toolTip1 = new ToolTip(components);
+            btngeriDon = new Button();
             ((System.ComponentModel.ISupportInitialize)npSaat).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCalisanlar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -62,7 +63,7 @@
             // npSaat
             // 
             npSaat.Location = new Point(731, 167);
-            npSaat.Maximum = new decimal(new int[] { 400, 0, 0, 0 });
+            npSaat.Maximum = new decimal(new int[] { 5000, 0, 0, 0 });
             npSaat.Name = "npSaat";
             npSaat.Size = new Size(181, 27);
             npSaat.TabIndex = 9;
@@ -158,6 +159,21 @@
             pictureBox2.TabIndex = 25;
             pictureBox2.TabStop = false;
             // 
+            // btngeriDon
+            // 
+            btngeriDon.BackColor = Color.Maroon;
+            btngeriDon.FlatAppearance.BorderSize = 0;
+            btngeriDon.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 0, 192);
+            btngeriDon.FlatStyle = FlatStyle.Flat;
+            btngeriDon.ForeColor = SystemColors.ButtonHighlight;
+            btngeriDon.Location = new Point(12, 12);
+            btngeriDon.Name = "btngeriDon";
+            btngeriDon.Size = new Size(141, 47);
+            btngeriDon.TabIndex = 20;
+            btngeriDon.Text = "Geri Dön";
+            btngeriDon.UseVisualStyleBackColor = false;
+            btngeriDon.Click += btngeriDon_Click;
+            // 
             // Giris
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -167,6 +183,7 @@
             Controls.Add(lblGiris);
             Controls.Add(txtIsim);
             Controls.Add(btnKaydet);
+            Controls.Add(btngeriDon);
             Controls.Add(btnYönetici);
             Controls.Add(btnSaat);
             Controls.Add(dgvCalisanlar);
@@ -202,5 +219,6 @@
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
         private ToolTip toolTip1;
+        private Button btngeriDon;
     }
 }

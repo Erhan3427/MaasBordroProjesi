@@ -4,6 +4,7 @@ using Org.BouncyCastle.Crypto.Engines;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace MaasBordroProjesi
@@ -34,6 +35,8 @@ namespace MaasBordroProjesi
             dgvCalisanlar.DataSource = YeniCalisan;
             dgvCalisanlar.Columns["Maas"].DefaultCellStyle.Format = "C2";
             dgvCalisanlar.Columns["MesaiUcret"].DefaultCellStyle.Format = "C2";
+            dgvCalisanlar.Columns["AnaOdeme"].DefaultCellStyle.Format = "C2";
+
 
 
             // 150 saatten az çalışanları kırmızı yap
@@ -47,20 +50,41 @@ namespace MaasBordroProjesi
             }
 
         }
-        /// <summary>
-        ///  Arayüz ayarlarını yapar ve çalışanları yükler.
-        /// </summary>
-        private void Form1_Load(object sender, EventArgs e)
+        public void dgvAyar()
         {
             // DataGridView ayarları
             dgvCalisanlar.AutoGenerateColumns = true;
             dgvCalisanlar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Sütunların otomatik olarak doldurulması
             dgvCalisanlar.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; // Satırların otomatik olarak doldurulması
 
+            dgvCalisanlar.DataSource = YeniCalisan;
+            dgvCalisanlar.Columns[1].HeaderText = "Ad Soyad";
+            dgvCalisanlar.Columns[2].HeaderText = "Saat";
+            dgvCalisanlar.Columns[3].HeaderText = "Derece";
+            dgvCalisanlar.Columns[4].HeaderText = "Saatlik Ücret";
+            dgvCalisanlar.Columns[5].HeaderText = "Ana Ödeme";
+            dgvCalisanlar.Columns[6].HeaderText = "Mesai Ücreti";
+            dgvCalisanlar.Columns[7].HeaderText = "Maaş";
+
+
+            if (dgvCalisanlar.Columns["Id"] != null)
+            {
+                dgvCalisanlar.Columns["Id"].Visible = false;
+            }
+
+        }
+        /// <summary>
+        ///  Arayüz ayarlarını yapar ve çalışanları yükler.
+        /// </summary>
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            dgvAyar();
             toolTip1.AutoPopDelay = 5000; // 5 saniye sonra kaybolur
             toolTip1.InitialDelay = 500; // 0.5 saniye sonra gösterir
             toolTip1.ReshowDelay = 200; // Yeniden gösterme süresi
             toolTip1.ShowAlways = true; // Form üzerinde her zaman göster
+
+            dgvCalisanlar.DefaultCellStyle.SelectionBackColor = Color.MidnightBlue;
 
             dgvCalisanlar.ClearSelection();
             AzCalisan = DosyaOku.AzCalisanOku().Cast<Personel>().ToList();
@@ -71,7 +95,11 @@ namespace MaasBordroProjesi
 
             }
             EskiCalisanCagir();
-            toolTip1.SetToolTip(btnDosya, "Değişikliği güncellemek için dosya oluşturan forma geçer ");
+            toolTip1.SetToolTip(btnDosya, "Personel verilerini güncellemek,dosyaya ve programa kaydetmek için tıklayın");
+            toolTip1.SetToolTip(btnGuncelle, "Seçili personelin bilgilerini güncellemek için tıklayın");
+            toolTip1.SetToolTip(btnSil, "Seçili personeli listeden silmek için tıklayın");
+            toolTip1.SetToolTip(btnKaydet, "Yeni personel eklemek için tıklayın");
+            toolTip1.SetToolTip(npSaat, "Çalışma saati (150 saatten az olanlar kırmızı ile işaretlenir)");
 
         }
 
@@ -103,20 +131,21 @@ namespace MaasBordroProjesi
                     return;
                 }
 
-                if (txtİsim.Text.Any(char.IsDigit))
+                if (txtIsim.Text.Any(char.IsDigit))
                 {
                     MessageBox.Show("İsim  rakam içeremez. Lütfen tekrar giriniz");
                     return;
                 }
-                if (txtİsim.Text.Any(char.IsPunctuation))
+                if (txtIsim.Text.Any(p=>char.IsPunctuation(p)||char.IsSymbol(p)))
                 {
-                    MessageBox.Show("İsim  Noktalama içeremez. Lütfen tekrar giriniz");
+                    MessageBox.Show("İsim noktalama veya sembol içeremez. Lütfen tekrar giriniz");
                     return;
                 }
 
-                if (!string.IsNullOrEmpty(txtİsim.Text) || !string.IsNullOrWhiteSpace(txtİsim.Text))
+                if (!string.IsNullOrEmpty(txtIsim.Text) || !string.IsNullOrWhiteSpace(txtIsim.Text))
                 {
-                    personel.Isim = txtİsim.Text;
+                    txtIsim.Text=BosluklarıSil(txtIsim.Text);   
+                    personel.Isim = txtIsim.Text;
                 }
                 else
                 {
@@ -181,6 +210,8 @@ namespace MaasBordroProjesi
                 dgvCalisanlar.DataSource = YeniCalisan;
                 dgvCalisanlar.Columns["Maas"].DefaultCellStyle.Format = "C2";
                 dgvCalisanlar.Columns["MesaiUcret"].DefaultCellStyle.Format = "C2";
+                dgvCalisanlar.Columns["AnaOdeme"].DefaultCellStyle.Format = "C2";
+
 
 
                 foreach (DataGridViewRow row in dgvCalisanlar.Rows)
@@ -209,30 +240,38 @@ namespace MaasBordroProjesi
         {
             if (dgvCalisanlar.SelectedRows.Count > 0)
             {
+                DialogResult result = MessageBox.Show("Bu kişiyi silmek istediğinize emin misiniz?",
+                                      "Onay",
+                                      MessageBoxButtons.YesNo,
+                                      MessageBoxIcon.Question);
 
+                if (result == DialogResult.No)
+                {
+                    return;
+
+                }
 
                 var secilen = (Personel)dgvCalisanlar.SelectedRows[0].DataBoundItem;
                 if (secilen != null)
                 {
-                    if (secilen.Saat < 150)
+                    for (int i = AzCalisan.Count - 1; i >= 0; i--)
                     {
-                        foreach (var item in AzCalisan)
+                        if (AzCalisan[i].Id == secilen.Id)
                         {
-                            if (item.Id == secilen.Id)
-                            {
-
-                                AzCalisan.Remove(item);
-                                break;
-                            }
+                            AzCalisan.RemoveAt(i);
+                            break; // Bulunca çık
                         }
-
                     }
-                    else
+
+                    // Calisan'dan sil
+                    for (int i = Calisan.Count - 1; i >= 0; i--)
                     {
-                        Calisan.Remove(secilen);
-
+                        if (Calisan[i].Id == secilen.Id)
+                        {
+                            Calisan.RemoveAt(i);
+                            break;
+                        }
                     }
-
 
                     bool silindiMi = YeniCalisan.Remove(secilen);
 
@@ -249,6 +288,7 @@ namespace MaasBordroProjesi
                     //para formatında yazar
                     dgvCalisanlar.Columns["Maas"].DefaultCellStyle.Format = "C2";
                     dgvCalisanlar.Columns["MesaiUcret"].DefaultCellStyle.Format = "C2";
+                    dgvCalisanlar.Columns["AnaOdeme"].DefaultCellStyle.Format = "C2";
 
                     foreach (DataGridViewRow row in dgvCalisanlar.Rows)
                     {
@@ -266,6 +306,7 @@ namespace MaasBordroProjesi
             {
                 MessageBox.Show("Silinecek eleman yok");
             }
+
         }
         private void btnSil_Click(object sender, EventArgs e)
         {
@@ -284,16 +325,16 @@ namespace MaasBordroProjesi
                     var secilen = (Personel)dgvCalisanlar.SelectedRows[0].DataBoundItem;
                     if (secilen != null)
                     {
-                        if (txtİsim.Text.Any(char.IsDigit))
+                        if (txtIsim.Text.Any(char.IsDigit))
                         {
                             MessageBox.Show("Rakam girmeyiniz Lütfen !");
                             return;
                         }
 
                         //boş ise kullanıcıya soru sorar
-                        if (!string.IsNullOrEmpty(txtİsim.Text) || !string.IsNullOrWhiteSpace(txtİsim.Text))
+                        if (!string.IsNullOrEmpty(txtIsim.Text) || !string.IsNullOrWhiteSpace(txtIsim.Text))
                         {
-                            secilen.Isim = txtİsim.Text;
+                            secilen.Isim = txtIsim.Text;
                         }
                         else
                         {
@@ -304,7 +345,7 @@ namespace MaasBordroProjesi
 
                             if (result == DialogResult.Yes)
                             {
-                                secilen.Isim = txtİsim.Text;
+                                secilen.Isim = txtIsim.Text;
                             }
                             else
                             {
@@ -398,11 +439,24 @@ namespace MaasBordroProjesi
         }
         private void Temizle()
         {
-            txtİsim.Text = ""; // TextBox temizle
+            txtIsim.Text = ""; // TextBox temizle
             npSaat.Value = 0;  // NumericUpDown sıfırla
             cmbKıdem.SelectedIndex = -1; // ComboBox seçimi kaldır
 
         }
+        public static string BosluklarıSil(string input)
+        {
+           
+
+            // Baştaki ve sondaki boşlukları temizle.
+            input = input.Trim();
+
+            // Birden fazla boşluğu tek boşluğa çevir.
+            input = Regex.Replace(input, @"\s+", " ");
+
+            return input;
+        }
+
         //Dosya oluşturulan Forma Geçer
         private void btnYonetim_Click(object sender, EventArgs e)
         {
@@ -420,5 +474,14 @@ namespace MaasBordroProjesi
 
         }
 
+        private void dgvCalisanlar_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvCalisanlar.SelectedRows.Count > 0)
+            {
+                txtIsim.Text = dgvCalisanlar.SelectedRows[0].Cells[1].Value?.ToString();
+                npSaat.Value = Convert.ToDecimal(dgvCalisanlar.SelectedRows[0].Cells[2].Value);
+                cmbKıdem.Text = dgvCalisanlar.SelectedRows[0].Cells[3].Value?.ToString();   
+            }
+        }
     }
 }

@@ -30,7 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Yonetim));
-            txtİsim = new TextBox();
+            txtIsim = new TextBox();
             npSaat = new NumericUpDown();
             cmbKıdem = new ComboBox();
             btnKaydet = new Button();
@@ -55,17 +55,17 @@
             panel2.SuspendLayout();
             SuspendLayout();
             // 
-            // txtİsim
+            // txtIsim
             // 
-            txtİsim.Location = new Point(115, 110);
-            txtİsim.Name = "txtİsim";
-            txtİsim.Size = new Size(181, 27);
-            txtİsim.TabIndex = 0;
+            txtIsim.Location = new Point(115, 110);
+            txtIsim.Name = "txtIsim";
+            txtIsim.Size = new Size(181, 27);
+            txtIsim.TabIndex = 0;
             // 
             // npSaat
             // 
             npSaat.Location = new Point(115, 154);
-            npSaat.Maximum = new decimal(new int[] { 400, 0, 0, 0 });
+            npSaat.Maximum = new decimal(new int[] { 720, 0, 0, 0 });
             npSaat.Name = "npSaat";
             npSaat.Size = new Size(181, 27);
             npSaat.TabIndex = 1;
@@ -85,7 +85,7 @@
             // 
             btnKaydet.BackColor = Color.FromArgb(46, 204, 113);
             btnKaydet.FlatStyle = FlatStyle.Flat;
-            btnKaydet.Location = new Point(331, 188);
+            btnKaydet.Location = new Point(356, 188);
             btnKaydet.Name = "btnKaydet";
             btnKaydet.Size = new Size(150, 40);
             btnKaydet.TabIndex = 3;
@@ -134,14 +134,15 @@
             dgvCalisanlar.ReadOnly = true;
             dgvCalisanlar.RowHeadersWidth = 51;
             dgvCalisanlar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCalisanlar.Size = new Size(797, 177);
+            dgvCalisanlar.Size = new Size(879, 177);
             dgvCalisanlar.TabIndex = 5;
+            dgvCalisanlar.CellClick += dgvCalisanlar_CellClick;
             // 
             // btnGuncelle
             // 
             btnGuncelle.BackColor = Color.FromArgb(46, 204, 113);
             btnGuncelle.FlatStyle = FlatStyle.Flat;
-            btnGuncelle.Location = new Point(487, 188);
+            btnGuncelle.Location = new Point(512, 188);
             btnGuncelle.Name = "btnGuncelle";
             btnGuncelle.Size = new Size(150, 40);
             btnGuncelle.TabIndex = 3;
@@ -154,7 +155,7 @@
             btnSil.BackColor = Color.FromArgb(231, 76, 60);
             btnSil.FlatAppearance.BorderSize = 0;
             btnSil.FlatStyle = FlatStyle.Flat;
-            btnSil.Location = new Point(643, 188);
+            btnSil.Location = new Point(668, 188);
             btnSil.Name = "btnSil";
             btnSil.Size = new Size(150, 40);
             btnSil.TabIndex = 3;
@@ -170,7 +171,7 @@
             btnDosya.FlatAppearance.MouseOverBackColor = Color.Red;
             btnDosya.FlatStyle = FlatStyle.Flat;
             btnDosya.ForeColor = SystemColors.ButtonHighlight;
-            btnDosya.Location = new Point(555, 19);
+            btnDosya.Location = new Point(637, 19);
             btnDosya.Name = "btnDosya";
             btnDosya.Size = new Size(140, 41);
             btnDosya.TabIndex = 6;
@@ -182,7 +183,7 @@
             // 
             cbBonus.AutoSize = true;
             cbBonus.ForeColor = SystemColors.ButtonHighlight;
-            cbBonus.Location = new Point(524, 122);
+            cbBonus.Location = new Point(549, 122);
             cbBonus.Name = "cbBonus";
             cbBonus.Size = new Size(71, 24);
             cbBonus.TabIndex = 7;
@@ -230,7 +231,7 @@
             panel2.Controls.Add(btnDosya);
             panel2.Location = new Point(93, -10);
             panel2.Name = "panel2";
-            panel2.Size = new Size(706, 70);
+            panel2.Size = new Size(794, 70);
             panel2.TabIndex = 9;
             // 
             // label4
@@ -247,7 +248,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(34, 33, 74);
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(882, 450);
             Controls.Add(cbBonus);
             Controls.Add(dgvCalisanlar);
             Controls.Add(btnSil);
@@ -255,7 +256,7 @@
             Controls.Add(btnKaydet);
             Controls.Add(cmbKıdem);
             Controls.Add(npSaat);
-            Controls.Add(txtİsim);
+            Controls.Add(txtIsim);
             Controls.Add(panel1);
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
@@ -276,7 +277,7 @@
 
         #endregion
 
-        private TextBox txtİsim;
+        private TextBox txtIsim;
         private NumericUpDown npSaat;
         private Button btnKaydet;
         private Label label1;
