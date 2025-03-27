@@ -1,15 +1,29 @@
 [
+
   {
-    "Id": 7,
-    "Isim": "Emir Uz",
-    "Saat": 1,
+    "Id": 1,
+    "Isim": "Hazal tokmak",
+    "Saat": 149,
     "Derece": {
-      "DereceAdi": "Yönetici",
-      "SaatlikUcret": 600
+      "DereceAdi": "Kidemli",
+      "SaatlikUcret": 535
     },
-    "SaatlikVerilenUcret": 600,
-    "AnaOdeme": 600,
+    "SaatlikVerilenUcret": 535,
+    "AnaOdeme": 79715,
     "MesaiUcret": 0,
-    "Maas": 600
+    "Maas": 0
+  },
+  {
+    "Id": 6,
+    "Isim": "Ayşenur",
+    "Saat": 50,
+    "Derece": {
+      "DereceAdi": "Deneyimli",
+      "SaatlikUcret": 510
+    },
+    "SaatlikVerilenUcret": 510,
+    "AnaOdeme": 25500,
+    "MesaiUcret": 0,
+    "Maas": 0
   }
 ]

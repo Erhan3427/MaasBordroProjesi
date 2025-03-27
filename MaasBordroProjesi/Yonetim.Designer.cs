@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Yonetim));
             txtİsim = new TextBox();
             npSaat = new NumericUpDown();
@@ -39,13 +40,14 @@
             dgvCalisanlar = new DataGridView();
             btnGuncelle = new Button();
             btnSil = new Button();
-            btnYonetim = new Button();
+            btnDosya = new Button();
             cbBonus = new CheckBox();
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
             lblMesaj = new Label();
             panel2 = new Panel();
             label4 = new Label();
+            toolTip1 = new ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)npSaat).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCalisanlar).BeginInit();
             panel1.SuspendLayout();
@@ -160,21 +162,21 @@
             btnSil.UseVisualStyleBackColor = false;
             btnSil.Click += btnSil_Click;
             // 
-            // btnYonetim
+            // btnDosya
             // 
-            btnYonetim.BackColor = Color.Maroon;
-            btnYonetim.FlatAppearance.BorderSize = 0;
-            btnYonetim.FlatAppearance.MouseDownBackColor = Color.IndianRed;
-            btnYonetim.FlatAppearance.MouseOverBackColor = Color.Maroon;
-            btnYonetim.FlatStyle = FlatStyle.Flat;
-            btnYonetim.ForeColor = SystemColors.ButtonHighlight;
-            btnYonetim.Location = new Point(555, 19);
-            btnYonetim.Name = "btnYonetim";
-            btnYonetim.Size = new Size(140, 41);
-            btnYonetim.TabIndex = 6;
-            btnYonetim.Text = "Dosya Oluştur";
-            btnYonetim.UseVisualStyleBackColor = false;
-            btnYonetim.Click += btnYonetim_Click;
+            btnDosya.BackColor = Color.Maroon;
+            btnDosya.FlatAppearance.BorderSize = 0;
+            btnDosya.FlatAppearance.MouseDownBackColor = Color.IndianRed;
+            btnDosya.FlatAppearance.MouseOverBackColor = Color.Red;
+            btnDosya.FlatStyle = FlatStyle.Flat;
+            btnDosya.ForeColor = SystemColors.ButtonHighlight;
+            btnDosya.Location = new Point(555, 19);
+            btnDosya.Name = "btnDosya";
+            btnDosya.Size = new Size(140, 41);
+            btnDosya.TabIndex = 6;
+            btnDosya.Text = "Dosya Oluştur";
+            btnDosya.UseVisualStyleBackColor = false;
+            btnDosya.Click += btnYonetim_Click;
             // 
             // cbBonus
             // 
@@ -225,7 +227,7 @@
             panel2.BackColor = Color.FromArgb(31, 30, 68);
             panel2.Controls.Add(lblMesaj);
             panel2.Controls.Add(label4);
-            panel2.Controls.Add(btnYonetim);
+            panel2.Controls.Add(btnDosya);
             panel2.Location = new Point(93, -10);
             panel2.Name = "panel2";
             panel2.Size = new Size(706, 70);
@@ -256,6 +258,7 @@
             Controls.Add(txtİsim);
             Controls.Add(panel1);
             Controls.Add(panel2);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "Yonetim";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Yonetim";
@@ -283,12 +286,13 @@
         public ComboBox cmbKıdem;
         private Button btnGuncelle;
         private Button btnSil;
-        private Button btnYonetim;
+        private Button btnDosya;
         private CheckBox cbBonus;
         private Panel panel1;
         private Panel panel2;
         private Label label4;
         private Label lblMesaj;
         private PictureBox pictureBox1;
+        private ToolTip toolTip1;
     }
 }

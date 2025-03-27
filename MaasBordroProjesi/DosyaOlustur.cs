@@ -16,13 +16,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Document = System.Reflection.Metadata.Document;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Globalization;
 
 namespace MaasBordroProjesi
 {
     public partial class YoneticiPersonel : Form
     {
-        private List<Personel> calisanlarHepsi = new List<Personel>();
-        private List<Personel> azCalisanlar = new List<Personel>();
+        private List<Personel> calisanlarHepsi = new List<Personel>();// Tüm çalışanları saklayan liste
+        private List<Personel> azCalisanlar = new List<Personel>();// Az çalışanları saklayan liste
 
         public int bonus;
 
@@ -31,7 +32,7 @@ namespace MaasBordroProjesi
             InitializeComponent();
             calisanlarHepsi = calisanlar;
             azCalisanlar = azCalisan;
-          
+
 
         }
 
@@ -47,7 +48,7 @@ namespace MaasBordroProjesi
 
 
             // ListView kolonlarını oluştur
-            lsvtRapor.Columns.Add("İsim", 60);
+            lsvtRapor.Columns.Add("İsim", 150);
             lsvtRapor.Columns.Add("Çalışma Saati", 130);
             lsvtRapor.Columns.Add("Maaş", 100);
             lsvtRapor.Columns.Add("Kıdem", 100);
@@ -58,14 +59,15 @@ namespace MaasBordroProjesi
             {
                 cmbYcalisan.Items.Add(kisi);
             }
-            
+            // Butonlara açıklama ekle
             toolTip1.SetToolTip(btnAzCalisan, "Bu buton az çalışanların json dosyasını oluşturur.");
             toolTip1.SetToolTip(btnCalisan, "Bu buton sadece  comboboxtan seçilen çalışanın json dosyasını oluşturur.");
             toolTip1.SetToolTip(btnHepsi, "Bu buton Tüm çalışanların json dosyasını oluşturur.");
             toolTip1.SetToolTip(btnPDF, "Bu buton tüm çalışanların PDF dosyasını oluşturur.");
+            toolTip1.SetToolTip(btnAzCalisan, "Az çalışanların PDF dosyasını oluşturur ");
         }
 
-
+        // Tüm çalışanları JSON formatında kaydeden fonksiyon
         public void jsonKaydet()
         {
             try
@@ -114,6 +116,7 @@ namespace MaasBordroProjesi
 
 
         Personel secilen;
+        // Seçili çalışanı ListView'de gösteren fonksiyon
         public void Goster()
         {
 
@@ -145,7 +148,7 @@ namespace MaasBordroProjesi
             item.SubItems.Add(secilen.Saat.ToString());
             item.SubItems.Add(secilen.Maas.ToString("C2"));
             item.SubItems.Add(secilen.Derece.ToString());
-            if (secilen.Saat < 180)
+            if (secilen.Saat < 150)
             {
                 item.BackColor = Color.Red;
                 item.SubItems.Add("Çalışma saati  az ");
@@ -162,11 +165,8 @@ namespace MaasBordroProjesi
             Goster();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Goster();
-        }
 
+        // Seçili çalışanın JSON dosyasını oluşturan fonksiyon
         public void CalisanJson()
         {
             try
@@ -183,7 +183,7 @@ namespace MaasBordroProjesi
                 }
 
                 string projeDizini = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string Tarih = DateTime.Now.ToString("MM-yyyy");
+                string Tarih = DateTime.Now.ToString("MMMM-yyyy");
                 //projenin içine girmek için 
                 string hedefDizin = Path.Combine(projeDizini, @"..\..\..\", "DataPersonelKisi");
                 string dosyaYolu = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, hedefDizin, $"{secilen.Isim}_{Tarih}.json");
@@ -229,21 +229,38 @@ namespace MaasBordroProjesi
                     MessageBox.Show("çalışan yok");
                     return;
                 }
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "PDF Dosyası|*.pdf";
                 saveFileDialog.Title = "PDF Dosyası Kaydet";
-                saveFileDialog.FileName = $"PersonelRaporu_{DateTime.Now:yyyyMMdd}.pdf";
+                saveFileDialog.FileName = $"PersonelRaporu_{DateTime.Now:yyyy.MM.dd}.pdf";
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    iTextSharp.text.Document document = new iTextSharp.text.Document(); // Change to iTextSharp.text.Document
+                    iTextSharp.text.Document document = new iTextSharp.text.Document(); 
                     PdfWriter.GetInstance(document, new FileStream(saveFileDialog.FileName, FileMode.Create));
                     document.Open();
 
+                    string fontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "times.ttf");
+
+                    if (!File.Exists(fontPath))
+                    {
+                        MessageBox.Show("Font dosyası bulunamadı: " + fontPath);
+                        return;
+                    }
+
+                    BaseFont bfTimes = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                    iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(bfTimes, 18, iTextSharp.text.Font.BOLD);
+                    iTextSharp.text.Font fontNormal = new iTextSharp.text.Font(bfTimes, 12, iTextSharp.text.Font.NORMAL);
+                    iTextSharp.text.Font fontWarning = new iTextSharp.text.Font(bfTimes, 12, iTextSharp.text.Font.BOLD,BaseColor.WHITE);
+
+
                     // Başlık ve tarih ekle
-                    Paragraph title = new Paragraph("Personel Raporu");
+
+                    Paragraph title = new Paragraph("Personel Raporu", fontTitle);
                     title.Alignment = Element.ALIGN_CENTER; // Metni ortala
                     title.Font.Size = 18; // Font boyutunu ayarla
+                    document.Add(title);
 
                     Paragraph date = new Paragraph($"Oluşturulma Tarihi: {DateTime.Now.ToShortDateString()}");
                     date.Alignment = Element.ALIGN_CENTER;
@@ -260,7 +277,7 @@ namespace MaasBordroProjesi
                     // Başlıkları ekle
                     foreach (ColumnHeader column in lsvtRapor.Columns)
                     {
-                        PdfPCell cell = new PdfPCell(new Phrase(column.Text));
+                        PdfPCell cell = new PdfPCell(new Phrase(column.Text,fontNormal));
                         cell.BackgroundColor = BaseColor.LIGHT_GRAY;
                         table.AddCell(cell);
                     }
@@ -270,11 +287,11 @@ namespace MaasBordroProjesi
                     // Listedeki her bir personel bilgisini tabloya ekle
                     foreach (Personel personel in calisanlarHepsi)
                     {
-                        PdfPCell cellIsim = new PdfPCell(new Phrase(personel.Isim));
-                        PdfPCell cellSaat = new PdfPCell(new Phrase(personel.Saat.ToString()));
-                        PdfPCell cellDerece = new PdfPCell(new Phrase(personel.Derece.ToString()));
-                        PdfPCell cellMaas = new PdfPCell(new Phrase(personel.Maas.ToString("C2"))); // Para birimi formatı
-                        PdfPCell cellUyari = new PdfPCell(new Phrase(personel.Saat <= 150 ? "Çalışma saati yetersiz!" : "")); // Uyarı hücresi
+                        PdfPCell cellIsim = new PdfPCell(new Phrase(personel.Isim, fontNormal));
+                        PdfPCell cellSaat = new PdfPCell(new Phrase(personel.Saat.ToString(), fontNormal));
+                        PdfPCell cellDerece = new PdfPCell(new Phrase(personel.Derece.ToString(), fontNormal));
+                        PdfPCell cellMaas = new PdfPCell(new Phrase(personel.Maas.ToString("C2", new CultureInfo("tr-TR")), fontNormal)); 
+                        PdfPCell cellUyari = new PdfPCell(new Phrase(personel.Saat < 150 ? "Çalışma saati yetersiz!" : "", fontWarning)); // Uyarı hücresi
 
 
 
@@ -323,10 +340,7 @@ namespace MaasBordroProjesi
             PDF();
         }
 
-        private void cmbYcalisan_Leave(object sender, EventArgs e)
-        {
 
-        }
 
         private void btnAzCalisan_Click(object sender, EventArgs e)
         {
@@ -370,11 +384,173 @@ namespace MaasBordroProjesi
             }
         }
 
-      
+
 
         private void btnGeriDon_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        private void cmbYcalisan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (cmbYcalisan.SelectedItem != null)
+            {
+                string secilenKıdem = cmbYcalisan.SelectedItem.ToString();
+                btnCalisaniGoster_Click(sender, e);
+                // Eğer ListView'de yoksa ekle
+
+            }
+        }
+
+        private void btnCalisaniGoster_Click(object sender, EventArgs e)
+        {
+            Goster();
+
+        }
+
+        private void btnAzCalisanlarGoster_Click(object sender, EventArgs e)
+        {
+            lsvtRapor.Items.Clear();
+            foreach (var item in azCalisanlar)
+            {
+                ListViewItem calisanAz = new ListViewItem(item.Isim);
+                calisanAz.SubItems.Add(item.Saat.ToString());
+                calisanAz.SubItems.Add(item.Maas.ToString("C2"));
+                calisanAz.SubItems.Add(item.Derece.ToString());
+                if (item.Saat < 150)
+                {
+                    calisanAz.BackColor = Color.Red;
+                    calisanAz.SubItems.Add("Çalışma saati  az ");
+                }
+
+
+                // ListView'e ekle
+                lsvtRapor.Items.Add(calisanAz);
+            }
+
+        }
+        // ...
+
+        public void AzCalisanlarPDF()
+        {
+            try
+            {
+                if (azCalisanlar == null)
+                {
+                    MessageBox.Show("çalışan yok");
+                    return;
+                }
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "PDF Dosyası|*.pdf";
+                saveFileDialog.Title = "PDF Dosyası Kaydet";
+                saveFileDialog.FileName = $"AzÇalışanPersonelRaporu_{DateTime.Now:yyyy.MM.dd}.pdf";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    iTextSharp.text.Document document = new iTextSharp.text.Document();
+                    PdfWriter.GetInstance(document, new FileStream(saveFileDialog.FileName, FileMode.Create));
+                    document.Open();
+
+
+                    
+                    string fontPath = "C:\\Windows\\Fonts\\times.ttf";   // Times New Roman
+
+
+                    if (!File.Exists(fontPath))
+                    {
+                        MessageBox.Show("Font dosyası bulunamadı: " + fontPath);
+                        return;
+                    }
+
+                    BaseFont bfArial = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                    iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(bfArial, 18, iTextSharp.text.Font.BOLD);
+                    iTextSharp.text.Font fontNormal = new iTextSharp.text.Font(bfArial, 12, iTextSharp.text.Font.NORMAL); 
+                    iTextSharp.text.Font fontWarning = new iTextSharp.text.Font(bfArial, 12, iTextSharp.text.Font.BOLD,BaseColor.WHITE); 
+
+                    // Başlık ve tarih ekle
+                    Paragraph title = new Paragraph("Az Çalışan Personel Raporu", fontTitle);
+                    title.Alignment = Element.ALIGN_CENTER; // Metni ortala
+                    title.Font.Size = 18; // Font boyutunu ayarla
+                    document.Add(title);
+
+                    Paragraph date = new Paragraph($"Oluşturulma Tarihi: {DateTime.Now.ToShortDateString()}", fontNormal);
+                    date.Alignment = Element.ALIGN_CENTER;
+                    document.Add(date);
+
+                    document.Add(new Paragraph("\n"));
+
+                    // Tablo oluştur
+                    PdfPTable table = new PdfPTable(lsvtRapor.Columns.Count);
+                    table.WidthPercentage = 100;
+
+                    // Başlıkları ekle
+                    foreach (ColumnHeader column in lsvtRapor.Columns)
+                    {
+                        PdfPCell cell = new PdfPCell(new Phrase(column.Text, fontNormal));
+                        cell.BackgroundColor = BaseColor.LIGHT_GRAY;
+                        table.AddCell(cell);
+                    }
+
+                    // Verileri ekle
+                    bool alternateRow = false;
+                    // Listedeki her bir personel bilgisini tabloya ekle
+                    foreach (Personel personel in azCalisanlar)
+                    {
+                        PdfPCell cellIsim = new PdfPCell(new Phrase(personel.Isim,fontNormal));
+                        PdfPCell cellSaat = new PdfPCell(new Phrase(personel.Saat.ToString(),fontNormal));
+                        PdfPCell cellDerece = new PdfPCell(new Phrase(personel.Derece.ToString(), fontNormal));
+                        PdfPCell cellMaas = new PdfPCell(new Phrase(personel.Maas.ToString("C2", new CultureInfo("tr-TR")), fontNormal));
+                        PdfPCell cellUyari = new PdfPCell(new Phrase(personel.Saat < 150 ? "Çalışma saati yetersiz!" : "",fontWarning)); // Uyarı hücresi
+
+
+                        if (alternateRow)
+                        {
+                            cellIsim.BackgroundColor = BaseColor.LIGHT_GRAY;
+                            cellSaat.BackgroundColor = BaseColor.LIGHT_GRAY;
+                            cellDerece.BackgroundColor = BaseColor.LIGHT_GRAY;
+                            cellMaas.BackgroundColor = BaseColor.LIGHT_GRAY;
+                        }
+                        if (personel.Saat < 150)
+                        {
+                            cellUyari.BackgroundColor = BaseColor.RED;
+                        }
+                        else if (alternateRow)
+                        {
+                            cellUyari.BackgroundColor = BaseColor.LIGHT_GRAY;
+                        }
+
+                        table.AddCell(cellIsim);
+                        table.AddCell(cellSaat);
+                        table.AddCell(cellMaas);
+                        table.AddCell(cellDerece);
+                        table.AddCell(cellUyari);
+
+                        alternateRow = !alternateRow;
+                    }
+
+                    document.Add(table);
+                    document.Close();
+
+                    MessageBox.Show("PDF başarıyla kaydedildi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hata: " + ex.Message);
+            }
+        }
+
+        private void btnAzCalisanPdf_Click(object sender, EventArgs e)
+        {
+            AzCalisanlarPDF();
+        }
+
+        private void btnCikis_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
+

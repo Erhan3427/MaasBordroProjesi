@@ -41,6 +41,7 @@
             lblGiris = new Label();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
+            toolTip1 = new ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)npSaat).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCalisanlar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -96,6 +97,7 @@
             // 
             btnYönetici.BackColor = Color.Transparent;
             btnYönetici.FlatAppearance.BorderSize = 0;
+            btnYönetici.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 0, 192);
             btnYönetici.FlatStyle = FlatStyle.Flat;
             btnYönetici.ForeColor = SystemColors.ButtonHighlight;
             btnYönetici.Location = new Point(771, 12);
@@ -172,10 +174,13 @@
             Controls.Add(npSaat);
             Controls.Add(pictureBox1);
             Controls.Add(pictureBox2);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            KeyPreview = true;
             Name = "Giris";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Giris";
             Load += Giris_Load;
+            KeyDown += Giris_KeyDown_1;
             ((System.ComponentModel.ISupportInitialize)npSaat).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvCalisanlar).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -196,5 +201,6 @@
         private Label lblGiris;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
+        private ToolTip toolTip1;
     }
 }

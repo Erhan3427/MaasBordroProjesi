@@ -1,80 +1,80 @@
 [
   {
-    "Id": 1,
-    "Isim": "Erhan",
-    "Saat": 200,
-    "Derece": {
-      "DereceAdi": "Yönetici",
-      "SaatlikUcret": 600
-    },
-    "SaatlikVerilenUcret": 600,
-    "AnaOdeme": 120000,
-    "MesaiUcret": 18000.0,
-    "Maas": 138000.0
-  },
-  {
-    "Id": 2,
-    "Isim": "Emir",
-    "Saat": 180,
-    "Derece": {
-      "DereceAdi": "Üst Kıdemli",
-      "SaatlikUcret": 550
-    },
-    "SaatlikVerilenUcret": 550,
-    "AnaOdeme": 99000,
-    "MesaiUcret": 0,
-    "Maas": 99000
-  },
-  {
-    "Id": 3,
-    "Isim": "efe",
-    "Saat": 150,
-    "Derece": {
-      "DereceAdi": "Kidemli",
-      "SaatlikUcret": 535
-    },
-    "SaatlikVerilenUcret": 535,
-    "AnaOdeme": 80250,
-    "MesaiUcret": 0,
-    "Maas": 80250
-  },
-  {
-    "Id": 4,
-    "Isim": "Doğa",
-    "Saat": 151,
+    "Id": 6,
+    "Isim": "Ayşenur",
+    "Saat": 50,
     "Derece": {
       "DereceAdi": "Deneyimli",
       "SaatlikUcret": 510
     },
     "SaatlikVerilenUcret": 510,
-    "AnaOdeme": 77010,
+    "AnaOdeme": 25500,
     "MesaiUcret": 0,
-    "Maas": 77010
+    "Maas": 25500
   },
   {
-    "Id": 5,
-    "Isim": "Berkay",
-    "Saat": 120,
+    "Id": 1,
+    "Isim": "Hazal tokmak",
+    "Saat": 149,
+    "Derece": {
+      "DereceAdi": "Kidemli",
+      "SaatlikUcret": 535
+    },
+    "SaatlikVerilenUcret": 535,
+    "AnaOdeme": 79715,
+    "MesaiUcret": 0,
+    "Maas": 79715
+  },
+  {
+    "Id": 2,
+    "Isim": "Doğa ",
+    "Saat": 150,
+    "Derece": {
+      "DereceAdi": "Üst Kıdemli",
+      "SaatlikUcret": 550
+    },
+    "SaatlikVerilenUcret": 550,
+    "AnaOdeme": 82500,
+    "MesaiUcret": 0,
+    "Maas": 82500
+  },
+  {
+    "Id": 3,
+    "Isim": "Emir Uz ",
+    "Saat": 180,
+    "Derece": {
+      "DereceAdi": "Orta Kıdemli",
+      "SaatlikUcret": 520
+    },
+    "SaatlikVerilenUcret": 520,
+    "AnaOdeme": 93600,
+    "MesaiUcret": 0,
+    "Maas": 93600
+  },
+  {
+    "Id": 4,
+    "Isim": "Berkay Arslan",
+    "Saat": 220,
     "Derece": {
       "DereceAdi": "Yönetici",
       "SaatlikUcret": 600
     },
     "SaatlikVerilenUcret": 600,
-    "AnaOdeme": 72000,
-    "MesaiUcret": 0,
-    "Maas": 72000
+    "AnaOdeme": 137000,
+    "MesaiUcret": 36000.0,
+    "Maas": 173000.0
   },
   {
-    "Id": 6,
-    "Isim": "Hazal",
-    "Saat": 300,
+    "Id": 5,
+    "Isim": "Erhan",
+    "Saat": 220,
     "Derece": {
-      "DereceAdi": "Yeni Başlayan",
-      "SaatlikUcret": 500
+      "DereceAdi": "Yönetici",
+      "SaatlikUcret": 600
     },
-    "SaatlikVerilenUcret": 500,
-    "AnaOdeme": 150000,
-    "MesaiUcret": 90000.0,
-    "Maas": 240000.0
+    "SaatlikVerilenUcret": 600,
+    "AnaOdeme": 132000,
+    "MesaiUcret": 36000.0,
+    "Maas": 168000.0
   }
 ]

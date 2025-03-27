@@ -10,7 +10,9 @@ namespace MaasBordroProjesi
 {
     public partial class Yonetim : Form
     {
-        //Personel Listeleri
+        /// <summary>
+        /// 150 saatten az çalışanları, yeni çalışanları ve mevcut çalışanları saklayan listeler.
+        /// </summary>
         static List<Personel> AzCalisan = new List<Personel>();
         static List<Personel> YeniCalisan = new List<Personel>();
         static List<Personel> Calisan = new List<Personel>();
@@ -38,22 +40,30 @@ namespace MaasBordroProjesi
             foreach (DataGridViewRow row in dgvCalisanlar.Rows)
             {
                 Double saat = Convert.ToDouble(row.Cells["Saat"].Value);
-                if (saat <= 150)
+                if (saat < 150)
                 {
                     row.DefaultCellStyle.BackColor = Color.Red;
                 }
             }
 
         }
-
+        /// <summary>
+        ///  Arayüz ayarlarını yapar ve çalışanları yükler.
+        /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
             // DataGridView ayarları
             dgvCalisanlar.AutoGenerateColumns = true;
             dgvCalisanlar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Sütunların otomatik olarak doldurulması
             dgvCalisanlar.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; // Satırların otomatik olarak doldurulması
-            dgvCalisanlar.ClearSelection();
 
+            toolTip1.AutoPopDelay = 5000; // 5 saniye sonra kaybolur
+            toolTip1.InitialDelay = 500; // 0.5 saniye sonra gösterir
+            toolTip1.ReshowDelay = 200; // Yeniden gösterme süresi
+            toolTip1.ShowAlways = true; // Form üzerinde her zaman göster
+
+            dgvCalisanlar.ClearSelection();
+            AzCalisan = DosyaOku.AzCalisanOku().Cast<Personel>().ToList();
             // Kıdem (Derece) seçeneklerini ComboBox'a ekleme
             foreach (var item in MemurDerecesi.TumDereceler())
             {
@@ -61,6 +71,7 @@ namespace MaasBordroProjesi
 
             }
             EskiCalisanCagir();
+            toolTip1.SetToolTip(btnDosya, "Değişikliği güncellemek için dosya oluşturan forma geçer ");
 
         }
 
@@ -135,6 +146,7 @@ namespace MaasBordroProjesi
                 }
 
                 personel.MaasAta();
+                //Her çalışana Id atar
                 int yeniId = 1;
                 for (int i = 0; i < YeniCalisan.Count; i++)
                 {
@@ -143,6 +155,7 @@ namespace MaasBordroProjesi
                 }
                 personel.Id = yeniId;
 
+                //çalışanın eşleşen derecesine göre saatlik ucret atar
                 var derece = MemurDerecesi.TumDereceler();
                 foreach (var item in derece)
                 {
@@ -173,7 +186,7 @@ namespace MaasBordroProjesi
                 foreach (DataGridViewRow row in dgvCalisanlar.Rows)
                 {
                     Double saat = Convert.ToDouble(row.Cells["Saat"].Value);
-                    if (saat <= 150)
+                    if (saat < 150)
                     {
                         row.DefaultCellStyle.BackColor = Color.Red;
                     }
@@ -203,7 +216,15 @@ namespace MaasBordroProjesi
                 {
                     if (secilen.Saat < 150)
                     {
-                        AzCalisan.Remove(secilen);
+                        foreach (var item in AzCalisan)
+                        {
+                            if (item.Id == secilen.Id)
+                            {
+
+                                AzCalisan.Remove(item);
+                                break;
+                            }
+                        }
 
                     }
                     else
@@ -213,19 +234,26 @@ namespace MaasBordroProjesi
                     }
 
 
-                    YeniCalisan.Remove(secilen);
+                    bool silindiMi = YeniCalisan.Remove(secilen);
+
+                    if (!silindiMi)
+                    {
+                        MessageBox.Show("Personel listeden kaldırılamadı", "Uyarı",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
 
                     dgvCalisanlar.DataSource = null;
                     dgvCalisanlar.DataSource = YeniCalisan;
-
+                    //para formatında yazar
                     dgvCalisanlar.Columns["Maas"].DefaultCellStyle.Format = "C2";
                     dgvCalisanlar.Columns["MesaiUcret"].DefaultCellStyle.Format = "C2";
 
                     foreach (DataGridViewRow row in dgvCalisanlar.Rows)
                     {
                         Double saat = Convert.ToDouble(row.Cells["Saat"].Value);
-                        if (saat <= 150)
+                        if (saat < 150)
                         {
 
                             row.DefaultCellStyle.BackColor = Color.Red;
@@ -261,6 +289,8 @@ namespace MaasBordroProjesi
                             MessageBox.Show("Rakam girmeyiniz Lütfen !");
                             return;
                         }
+
+                        //boş ise kullanıcıya soru sorar
                         if (!string.IsNullOrEmpty(txtİsim.Text) || !string.IsNullOrWhiteSpace(txtİsim.Text))
                         {
                             secilen.Isim = txtİsim.Text;
@@ -281,35 +311,47 @@ namespace MaasBordroProjesi
                                 return;
                             }
                         }
+
+                        secilen.Saat = Convert.ToDecimal(npSaat.Text);
+
+                        //combodan seçilen dereceyi atar 
+                        if (cmbKıdem.SelectedItem != null)
+                        {
+                            secilen.Derece = (MemurDerecesi)cmbKıdem.SelectedItem;
+
+                        }
+
+                        // Saatlik ücreti yeni dereceye göre atar
                         var dereceListesi = MemurDerecesi.TumDereceler();
                         foreach (var item in dereceListesi)
                         {
                             if (item.DereceAdi == secilen.Derece.DereceAdi)
                             {
                                 secilen.SaatlikVerilenUcret = item.SaatlikUcret;
-                                dgvCalisanlar.Refresh();
-                                break;  // Eşleşmeyi bulunca döngüden çık
+
+                                break;
                             }
                         }
 
-                        secilen.Saat = Convert.ToDecimal(npSaat.Text);
-                        if (cmbKıdem.SelectedItem != null)
-                        {
-                            secilen.Derece = (MemurDerecesi)cmbKıdem.SelectedItem;
-
-                        }
+                        //saatine göre satırı kırmızı yapar
                         foreach (DataGridViewRow row in dgvCalisanlar.Rows)
                         {
                             Double saat = Convert.ToDouble(row.Cells["Saat"].Value);
-                            if (saat <= 150)
+                            if (saat < 150)
                             {
                                 row.DefaultCellStyle.BackColor = Color.Red;
                             }
-                            if (saat > 150)
+                            if (saat >= 150)
                             {
                                 row.DefaultCellStyle.BackColor = Color.White;
                             }
 
+                            if (saat < 150)
+                            {
+                                AzCalisan.Add(secilen);
+                                break;
+
+                            }
                         }
 
                         secilen.MaasAta();
@@ -369,7 +411,7 @@ namespace MaasBordroProjesi
                 MessageBox.Show("Çalişanların dosyasını oluşturmak için en az bir personel eklemelisiniz");
                 return;
             }
-         
+
 
             YoneticiPersonel yonetici = new YoneticiPersonel(YeniCalisan, AzCalisan);
             this.Hide();

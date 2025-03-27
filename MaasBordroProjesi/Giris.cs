@@ -38,6 +38,9 @@ namespace MaasBordroProjesi
             dgvCalisanlar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Sütunların otomatik olarak doldurulması
             dgvCalisanlar.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; // Satırların otomatik olarak doldurulması
             dgvCalisanlar.AutoGenerateColumns = true;
+
+            toolTip1.SetToolTip(btnYönetici, "Yönetim formuna geçiş yapar ");
+            toolTip1.SetToolTip(btnSaat, "yeni çalışana bu ayki çalıştığı saati yazdırıp maaşını hesaplar ");
             try
             {
                 // JSON'dan memur verilerini oku
@@ -149,6 +152,16 @@ namespace MaasBordroProjesi
 
         }
 
-     
+        //entere basınca  isim kaydeden butonu çalıştırır 
+        private void Giris_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnKaydet.PerformClick(); // Enter'a basınca Kaydet butonu çalışsın
+                e.SuppressKeyPress = true; // Varsayılan "beep" sesini engelle
+            }
+        }
+
+
     }
 }
