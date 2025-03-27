@@ -91,7 +91,7 @@ namespace MaasBordroProjesi
             // Kıdem (Derece) seçeneklerini ComboBox'a ekleme
             foreach (var item in MemurDerecesi.TumDereceler())
             {
-                cmbKıdem.Items.Add(item);
+                cmbKidem.Items.Add(item);
 
             }
             EskiCalisanCagir();
@@ -106,14 +106,14 @@ namespace MaasBordroProjesi
 
 
         // Yeni personeli listeye ekler ve ekrana yansıtır.
-        public void kaydet()
+        public void Kaydet()
         {
             Personel personel;
             try
             {
 
                 // Eğer Yönetici seçilmiş ve bonus işaretlenmişse yönetici olarak bonus ekle
-                if (cmbKıdem.SelectedItem == MemurDerecesi.Yonetici && cbBonus.Checked)
+                if (cmbKidem.SelectedItem == MemurDerecesi.Yonetici && cbBonus.Checked)
                 {
                     personel = new Yonetici();
                     ((Yonetici)personel).Bonus = 5000;
@@ -125,7 +125,7 @@ namespace MaasBordroProjesi
                     personel = new Memur();
                 }
 
-                if (cmbKıdem.SelectedItem == null)
+                if (cmbKidem.SelectedItem == null)
                 {
                     MessageBox.Show("Kıdem seçiniz");
                     return;
@@ -164,9 +164,9 @@ namespace MaasBordroProjesi
                 }
 
 
-                if (cmbKıdem.SelectedItem != null)
+                if (cmbKidem.SelectedItem != null)
                 {
-                    personel.Derece = (MemurDerecesi)cmbKıdem.SelectedItem;
+                    personel.Derece = (MemurDerecesi)cmbKidem.SelectedItem;
                 }
                 else
                 {
@@ -231,7 +231,7 @@ namespace MaasBordroProjesi
         }
         private void btnKaydet_Click(object sender, EventArgs e)
         {
-            kaydet();
+            Kaydet();
         }
 
 
@@ -334,6 +334,7 @@ namespace MaasBordroProjesi
                         //boş ise kullanıcıya soru sorar
                         if (!string.IsNullOrEmpty(txtIsim.Text) || !string.IsNullOrWhiteSpace(txtIsim.Text))
                         {
+                            txtIsim.Text=BosluklarıSil(txtIsim.Text);
                             secilen.Isim = txtIsim.Text;
                         }
                         else
@@ -356,9 +357,9 @@ namespace MaasBordroProjesi
                         secilen.Saat = Convert.ToDecimal(npSaat.Text);
 
                         //combodan seçilen dereceyi atar 
-                        if (cmbKıdem.SelectedItem != null)
+                        if (cmbKidem.SelectedItem != null)
                         {
-                            secilen.Derece = (MemurDerecesi)cmbKıdem.SelectedItem;
+                            secilen.Derece = (MemurDerecesi)cmbKidem.SelectedItem;
 
                         }
 
@@ -427,7 +428,7 @@ namespace MaasBordroProjesi
         //Yönetici Seçilince Bonus kutusu aktif olucak.
         private void cmbKıdem_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if ((MemurDerecesi)cmbKıdem.SelectedItem == MemurDerecesi.Yonetici)
+            if ((MemurDerecesi)cmbKidem.SelectedItem == MemurDerecesi.Yonetici)
             {
                 cbBonus.Visible = true;
 
@@ -441,7 +442,7 @@ namespace MaasBordroProjesi
         {
             txtIsim.Text = ""; // TextBox temizle
             npSaat.Value = 0;  // NumericUpDown sıfırla
-            cmbKıdem.SelectedIndex = -1; // ComboBox seçimi kaldır
+            cmbKidem.SelectedIndex = -1; // ComboBox seçimi kaldır
 
         }
         public static string BosluklarıSil(string input)
@@ -480,7 +481,7 @@ namespace MaasBordroProjesi
             {
                 txtIsim.Text = dgvCalisanlar.SelectedRows[0].Cells[1].Value?.ToString();
                 npSaat.Value = Convert.ToDecimal(dgvCalisanlar.SelectedRows[0].Cells[2].Value);
-                cmbKıdem.Text = dgvCalisanlar.SelectedRows[0].Cells[3].Value?.ToString();   
+                cmbKidem.Text = dgvCalisanlar.SelectedRows[0].Cells[3].Value?.ToString();   
             }
         }
     }

@@ -28,9 +28,9 @@ namespace MaasBordroProjesi
             lblMetin.Visible = false;
             npSaat.Visible = false;
             btnSaat.Visible = false;
-            btnYönetici.Visible = false;
+            btnYonetici.Visible = false;
             dgvCalisanlar.Visible = false;
-            btngeriDon.Visible = false;
+            btnGeriDon.Visible = false;
 
         }
 
@@ -44,7 +44,7 @@ namespace MaasBordroProjesi
             dgvCalisanlar.DefaultCellStyle.SelectionBackColor = Color.MidnightBlue;
 
 
-            toolTip1.SetToolTip(btnYönetici, "Yönetim paneline geçiş yapar");
+            toolTip1.SetToolTip(btnYonetici, "Yönetim paneline geçiş yapar");
             toolTip1.SetToolTip(btnSaat, "Çalışanın bu ayki çalışma saatini girmenizi ve maaş hesaplamanızı sağlar");
             try
             {
@@ -147,9 +147,9 @@ namespace MaasBordroProjesi
                 lblMetin.Visible = true;
                 npSaat.Visible = true;
                 btnSaat.Visible = true;
-                btnYönetici.Visible = true;
+                btnYonetici.Visible = true;
                 dgvCalisanlar.Visible = true;
-                btngeriDon.Visible = true;
+                btnGeriDon.Visible = true;
                 txtIsim.Visible = false;
                 btnKaydet.Visible = false;
                 lblGiris.Visible = false;
@@ -193,9 +193,9 @@ namespace MaasBordroProjesi
             lblMetin.Visible = false;
             npSaat.Visible = false;
             btnSaat.Visible = false;
-            btnYönetici.Visible = false;
+            btnYonetici.Visible = false;
             dgvCalisanlar.Visible = false;
-            btngeriDon.Visible = false;
+            btnGeriDon.Visible = false;
 
             txtIsim.Visible = true;
             btnKaydet.Visible = true;

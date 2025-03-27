@@ -34,7 +34,7 @@
             npSaat = new NumericUpDown();
             dgvCalisanlar = new DataGridView();
             btnSaat = new Button();
-            btnYönetici = new Button();
+            btnYonetici = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
             btnKaydet = new Button();
             txtIsim = new TextBox();
@@ -42,7 +42,7 @@
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             toolTip1 = new ToolTip(components);
-            btngeriDon = new Button();
+            btnGeriDon = new Button();
             ((System.ComponentModel.ISupportInitialize)npSaat).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCalisanlar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -94,20 +94,20 @@
             btnSaat.UseVisualStyleBackColor = false;
             btnSaat.Click += button1_Click;
             // 
-            // btnYönetici
+            // btnYonetici
             // 
-            btnYönetici.BackColor = Color.Transparent;
-            btnYönetici.FlatAppearance.BorderSize = 0;
-            btnYönetici.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 0, 192);
-            btnYönetici.FlatStyle = FlatStyle.Flat;
-            btnYönetici.ForeColor = SystemColors.ButtonHighlight;
-            btnYönetici.Location = new Point(771, 12);
-            btnYönetici.Name = "btnYönetici";
-            btnYönetici.Size = new Size(141, 47);
-            btnYönetici.TabIndex = 20;
-            btnYönetici.Text = "Yonetim";
-            btnYönetici.UseVisualStyleBackColor = false;
-            btnYönetici.Click += btnYönetici_Click;
+            btnYonetici.BackColor = Color.Transparent;
+            btnYonetici.FlatAppearance.BorderSize = 0;
+            btnYonetici.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 0, 192);
+            btnYonetici.FlatStyle = FlatStyle.Flat;
+            btnYonetici.ForeColor = SystemColors.ButtonHighlight;
+            btnYonetici.Location = new Point(771, 12);
+            btnYonetici.Name = "btnYonetici";
+            btnYonetici.Size = new Size(141, 47);
+            btnYonetici.TabIndex = 20;
+            btnYonetici.Text = "Yonetim";
+            btnYonetici.UseVisualStyleBackColor = false;
+            btnYonetici.Click += btnYönetici_Click;
             // 
             // btnKaydet
             // 
@@ -159,20 +159,20 @@
             pictureBox2.TabIndex = 25;
             pictureBox2.TabStop = false;
             // 
-            // btngeriDon
+            // btnGeriDon
             // 
-            btngeriDon.BackColor = Color.Maroon;
-            btngeriDon.FlatAppearance.BorderSize = 0;
-            btngeriDon.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 0, 192);
-            btngeriDon.FlatStyle = FlatStyle.Flat;
-            btngeriDon.ForeColor = SystemColors.ButtonHighlight;
-            btngeriDon.Location = new Point(12, 12);
-            btngeriDon.Name = "btngeriDon";
-            btngeriDon.Size = new Size(141, 47);
-            btngeriDon.TabIndex = 20;
-            btngeriDon.Text = "Geri Dön";
-            btngeriDon.UseVisualStyleBackColor = false;
-            btngeriDon.Click += btngeriDon_Click;
+            btnGeriDon.BackColor = Color.Maroon;
+            btnGeriDon.FlatAppearance.BorderSize = 0;
+            btnGeriDon.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 0, 192);
+            btnGeriDon.FlatStyle = FlatStyle.Flat;
+            btnGeriDon.ForeColor = SystemColors.ButtonHighlight;
+            btnGeriDon.Location = new Point(12, 12);
+            btnGeriDon.Name = "btnGeriDon";
+            btnGeriDon.Size = new Size(141, 47);
+            btnGeriDon.TabIndex = 20;
+            btnGeriDon.Text = "Geri Dön";
+            btnGeriDon.UseVisualStyleBackColor = false;
+            btnGeriDon.Click += btngeriDon_Click;
             // 
             // Giris
             // 
@@ -183,8 +183,8 @@
             Controls.Add(lblGiris);
             Controls.Add(txtIsim);
             Controls.Add(btnKaydet);
-            Controls.Add(btngeriDon);
-            Controls.Add(btnYönetici);
+            Controls.Add(btnGeriDon);
+            Controls.Add(btnYonetici);
             Controls.Add(btnSaat);
             Controls.Add(dgvCalisanlar);
             Controls.Add(lblMetin);
@@ -211,7 +211,7 @@
         private NumericUpDown npSaat;
         private DataGridView dgvCalisanlar;
         private Button btnSaat;
-        private Button btnYönetici;
+        private Button btnYonetici;
         private System.Windows.Forms.Timer timer1;
         private Button btnKaydet;
         private TextBox txtIsim;
@@ -219,6 +219,6 @@
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
         private ToolTip toolTip1;
-        private Button btngeriDon;
+        private Button btnGeriDon;
     }
 }

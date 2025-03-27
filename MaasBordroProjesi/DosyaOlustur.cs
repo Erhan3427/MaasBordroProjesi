@@ -187,14 +187,14 @@ namespace MaasBordroProjesi
 
                 string projeDizini = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 string Tarih = DateTime.Now.ToString("MMMM-yyyy");
-                //projenin içine girmek için 
                 string hedefDizin = Path.Combine(projeDizini, @"..\..\..\", "DataPersonelKisi");
-                string dosyaYolu = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, hedefDizin, $"{secilen.Isim}_{Tarih}.json");
 
-                if (!Directory.Exists(hedefDizin))
-                {
-                    Directory.CreateDirectory(hedefDizin);
-                }
+                string memurKlasorYolu = Path.Combine(hedefDizin, secilen.Isim);
+                Directory.CreateDirectory(memurKlasorYolu); // Klasör yoksa oluştur
+                //projenin içine girmek için 
+                string dosyaYolu = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, memurKlasorYolu, $"{secilen.Isim}_{Tarih}.json");
+
+              
 
                 var jsonAyarlar = new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
                 string jsonVeri = JsonSerializer.Serialize(secilen, jsonAyarlar);

@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Yonetim));
             txtIsim = new TextBox();
             npSaat = new NumericUpDown();
-            cmbKıdem = new ComboBox();
+            cmbKidem = new ComboBox();
             btnKaydet = new Button();
             label1 = new Label();
             label2 = new Label();
@@ -70,16 +70,16 @@
             npSaat.Size = new Size(181, 27);
             npSaat.TabIndex = 1;
             // 
-            // cmbKıdem
+            // cmbKidem
             // 
-            cmbKıdem.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbKıdem.FlatStyle = FlatStyle.Popup;
-            cmbKıdem.FormattingEnabled = true;
-            cmbKıdem.Location = new Point(115, 200);
-            cmbKıdem.Name = "cmbKıdem";
-            cmbKıdem.Size = new Size(181, 28);
-            cmbKıdem.TabIndex = 2;
-            cmbKıdem.SelectedIndexChanged += cmbKıdem_SelectedIndexChanged;
+            cmbKidem.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbKidem.FlatStyle = FlatStyle.Popup;
+            cmbKidem.FormattingEnabled = true;
+            cmbKidem.Location = new Point(115, 200);
+            cmbKidem.Name = "cmbKidem";
+            cmbKidem.Size = new Size(181, 28);
+            cmbKidem.TabIndex = 2;
+            cmbKidem.SelectedIndexChanged += cmbKıdem_SelectedIndexChanged;
             // 
             // btnKaydet
             // 
@@ -254,7 +254,7 @@
             Controls.Add(btnSil);
             Controls.Add(btnGuncelle);
             Controls.Add(btnKaydet);
-            Controls.Add(cmbKıdem);
+            Controls.Add(cmbKidem);
             Controls.Add(npSaat);
             Controls.Add(txtIsim);
             Controls.Add(panel1);
@@ -284,7 +284,7 @@
         private Label label2;
         private Label label3;
         private DataGridView dgvCalisanlar;
-        public ComboBox cmbKıdem;
+        public ComboBox cmbKidem;
         private Button btnGuncelle;
         private Button btnSil;
         private Button btnDosya;
